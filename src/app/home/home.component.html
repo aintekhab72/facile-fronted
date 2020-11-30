@@ -1,0 +1,45 @@
+<section>
+    <div class="header-section animated fadeInDown" id="navbar">
+        <div class="header-logo" id="header-navigate">
+            <img src="assets/images/ang-logo.png" id="logo" alt="Logo" />
+        </div>
+        <div class="header-links">
+            <a class="header-nav-link" routerLink="/home">Home</a>
+            <a class="header-nav-link">T-Shirts</a>
+            <a class="header-nav-link">Polos</a>
+        </div>
+        <div class="auth">
+            <a routerLink="/auth">Login / Register</a>
+        </div>
+    </div>
+</section>
+<!-- Create separate component for header -->
+
+<section (scroll)="onWindowScroll($event);">
+    <!-- <div class="lined-heading">
+        <span>PRODUCTS</span>
+    </div> -->
+
+    <div class="product-list">
+        <div *ngFor="let data of category" class="tilethumb">
+            <div class="htilebtn txt-upper fbold">{{data.categoryName}}</div>
+            <img src="{{data.categoryImage}}" class="zoom" alt="{{data.categoryName}}">
+        </div>
+    </div>
+
+    <div>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+        <p>Adding demo text to check fixed menu.</p>
+
+    </div>
+</section>
