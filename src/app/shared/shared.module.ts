@@ -8,6 +8,9 @@ import { MobileDirective } from './directive/mobile.directive';
   declarations: [MobileDirective],
   imports: [
     CommonModule
+  ], 
+  exports: [
+    MobileDirective
   ]
 })
 export class SharedModule { }

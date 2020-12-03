@@ -1,78 +1,18 @@
-<section class="auth-section bgcolor">
-    <mat-tab-group>
-        <mat-tab label="Register">
-            <div class="loginbox">
-                <div class="f16 fbold title">Register with Facile</div>
-                <div>
-                    <form [formGroup]="signUpForm">
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>First Name</mat-label>
-                                <input matInput placeholder="First Name" formControlName="firstName">
-                                
-                            </mat-form-field>
-
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Last Name</mat-label>
-                                <input matInput placeholder="Last Name" formControlName="lastName">
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Email</mat-label>
-                                <input matInput placeholder="Email" formControlName="email">
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>New Password</mat-label>
-                                <input matInput placeholder="New Password" formControlName="newPassword">
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Confirm Password</mat-label>
-                                <input matInput placeholder="Confirm Password" formControlName="confirmPassword">
-                            </mat-form-field>
-
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Mobile</mat-label>
-                                <input appMobile matInput placeholder="Mobile" formControlName="mobile">
-                            </mat-form-field>
-                        </div>
-                        <div class="example-button-row">
-                            <button mat-raised-button color="primary">Register</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </mat-tab>
-        <mat-tab label="Login">
-            <div class="loginbox">
-                <div class="f16 fbold title">Login with Facile</div>
-                <div>
-                    <form [formGroup]="loginForm">
-
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Email</mat-label>
-                                <input matInput placeholder="Email" formControlName="email">
-                            </mat-form-field>
-                        </div>
-                        <div>
-                            <mat-form-field class="example-full-width">
-                                <mat-label>Password</mat-label>
-                                <input matInput placeholder="Password" formControlName="password">
-                            </mat-form-field>
-                        </div>
-                        <div class="example-button-row">
-                            <button mat-raised-button color="primary">Login</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </mat-tab>
-    </mat-tab-group>
+<section class="bgcolor">
+    <div class="header-section">
+        <div *ngIf="isLogin" class="header-title">Login with the Facile</div>
+        <div *ngIf="isSignup" class="header-title">Register with the Facile</div>
+    </div>
+    <div class="auth-section">
+        <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="selectTab($event)">
+            <mat-tab label="LOGIN">
+                <app-login *ngIf="isLogin"></app-login>
+                <div class="redirect">New User ? <span (click)="redirectTo(1)">Create Account</span></div>
+            </mat-tab>
+            <mat-tab label="REGISTER">
+                <app-signup *ngIf="isSignup"></app-signup>
+                <div class="redirect">Already a User ? <span (click)="redirectTo(0)"> Login </span></div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
 </section>

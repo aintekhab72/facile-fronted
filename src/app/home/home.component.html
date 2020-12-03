@@ -15,7 +15,15 @@
 </section>
 <!-- Create separate component for header -->
 
-<section (scroll)="onWindowScroll($event);">
+<!-- Banner start here -->
+<ngb-carousel>
+    <ng-template ngbSlide *ngFor="let slider of sliders">
+        <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
+    </ng-template>
+</ngb-carousel>
+<!-- Banner Ends here -->
+
+<section class="mt-10" (scroll)="onWindowScroll($event);">
     <!-- <div class="lined-heading">
         <span>PRODUCTS</span>
     </div> -->
@@ -27,19 +35,4 @@
         </div>
     </div>
 
-    <div>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-        <p>Adding demo text to check fixed menu.</p>
-
-    </div>
 </section>

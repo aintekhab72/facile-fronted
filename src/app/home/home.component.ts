@@ -16,8 +16,27 @@ import { DOCUMENT } from '@angular/common';
 })
 export class HomeComponent implements OnInit {
   category: any = [];
+  public sliders: Array<any> = [];
 
-  constructor() { }
+  constructor() {
+    this.sliders.push(
+      {
+        imagePath: './assets/images/banner1.webp',
+        label: 'First slide label',
+        text: ''
+      },
+      {
+        imagePath: './assets/images/banner2.jpg',
+        label: 'Second slide label',
+        text: ''
+      },
+      {
+        imagePath: './assets/images/banner3.webp',
+        label: 'Third slide label',
+        text: ''
+      }
+    );
+  }
 
   ngOnInit(): void {
     this.category = [
@@ -34,13 +53,13 @@ export class HomeComponent implements OnInit {
 
   @HostListener('window:scroll', ['$event'])
   onWindowScroll(e: any) {
-     if (window.pageYOffset > 150) {
-       let element: any = document.getElementById('navbar');
-       element.classList.add('sticky');
-     } else {
+    if (window.pageYOffset > 150) {
       let element: any = document.getElementById('navbar');
-        element.classList.remove('sticky'); 
-     }
+      element.classList.add('sticky');
+    } else {
+      let element: any = document.getElementById('navbar');
+      element.classList.remove('sticky');
+    }
   }
 
 }

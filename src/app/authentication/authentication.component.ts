@@ -1,11 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  FormArray,
-  FormControl,
-  Validators
-} from "@angular/forms";
 
 @Component({
   selector: 'app-authentication',
@@ -13,25 +6,36 @@ import {
   styleUrls: ['./authentication.component.scss']
 })
 export class AuthenticationComponent implements OnInit {
-  public signUpForm!: FormGroup;
-  public loginForm!: FormGroup;
-
-  constructor(private fb: FormBuilder) { }
+  public isLogin: boolean = true;
+  public isSignup: boolean = false;
+  public selectedIndex: number = 0;
+  constructor() { }
 
   ngOnInit(): void {
-    this.signUpForm = this.fb.group({
-      firstName: new FormControl("", [Validators.required]),
-      lastName: new FormControl("", [Validators.required]),
-      email: new FormControl("", [Validators.required,  Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
-      newPassword: new FormControl("", [Validators.required]),
-      confirmPassword: new FormControl("", [Validators.required]),
-      mobile: new FormControl("", [Validators.required, Validators.minLength(10), Validators.pattern(/^[6-9]\d{9}$/)])
-    });
+  }
 
-    this.loginForm = this.fb.group({
-      email: new FormControl("", [Validators.required,  Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
-      password: new FormControl("", [Validators.required])
-    });
+  selectTab(event: any) {
+    this.isLogin = false;
+    this.isSignup = false;
+    if (event.index === 0) {
+      this.isLogin = true;
+      this.selectedIndex = 0;
+    } else {
+      this.isSignup = true;
+      this.selectedIndex = 1;
+    }
+  }
+
+  redirectTo(num: any) {
+    this.isLogin = false;
+    this.isSignup = false;
+    if (num === 0) {
+      this.isLogin = true;
+      this.selectedIndex = 0;
+    } else {
+      this.isSignup = true;
+      this.selectedIndex = 1;
+    }
   }
 
 }

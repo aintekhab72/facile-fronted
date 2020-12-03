@@ -1,0 +1,84 @@
+<div class="tab-section">
+    <div class="form-container">
+        <form [formGroup]="signUpForm">
+            <div class="mt-10">
+                <mat-form-field class="example-full-width">
+                    <mat-label>First Name</mat-label>
+                    <input matInput id="firstName" placeholder="First Name" formControlName="firstName" autocomplete="off">
+                    <mat-error *ngIf="signUpDetails.firstName.invalid && signUpDetails.firstName.touched">
+                        <mat-error *ngIf="signUpDetails.firstName.errors?.required">
+                            First Name is required.
+                        </mat-error>
+                        <mat-error *ngIf="signUpDetails.firstName.errors?.minlength">
+                            First Name should be 3 character.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-10">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Last Name</mat-label>
+                    <input matInput id="lastName" placeholder="Last Name" formControlName="lastName" autocomplete="off">
+                    <mat-error *ngIf="signUpDetails.lastName.invalid && signUpDetails.lastName.touched">
+                        <mat-error *ngIf="signUpDetails.lastName.errors?.required">
+                            Last Name is required.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-10">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Email</mat-label>
+                    <input matInput id="email" placeholder="Email" formControlName="email" autocomplete="off">
+                    <mat-error *ngIf="signUpDetails.email.invalid && signUpDetails.email.touched">
+                        <mat-error *ngIf="signUpDetails.email.errors?.required">
+                            Email is required.
+                        </mat-error>
+                        <mat-error *ngIf="signUpDetails.email.errors?.email">
+                            Please enter valid email address.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-10">
+                <mat-form-field class="example-full-width">
+                    <mat-label>New Password</mat-label>
+                    <input matInput id="password" type="password" (keyup)="validPassword()" placeholder="New Password"
+                        formControlName="password">
+                    <mat-error *ngIf="signUpDetails.password.errors?.required">
+                        Password is required.
+                    </mat-error>
+                    <mat-error *ngIf="isvalidPassword">
+                        Password must contain atleast 8 characters(An uppercase letter,a number and a special
+                        character).
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-20">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Confirm Password</mat-label>
+                    <input matInput id="confirm-password" type="password" placeholder="Confirm Password"
+                        formControlName="confirmPassword">
+                    <mat-error
+                        *ngIf="signUpDetails.confirmPassword.invalid && (signUpDetails.confirmPassword.dirty || signUpDetails.confirmPassword.touched)">
+                        Confirm Password is required.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="mt-10">
+                <mat-form-field class="example-full-width">
+                    <mat-label>Mobile</mat-label>
+                    <input appMobile matInput id="mobile" placeholder="Mobile" formControlName="mobile" autocomplete="off">
+                    <mat-error *ngIf="signUpDetails.mobile.invalid && signUpDetails.mobile.touched">
+                        <mat-error *ngIf="signUpDetails.mobile.errors?.required">
+                            Mobile is required.
+                        </mat-error>
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="example-button-row mt-10">
+                <button mat-raised-button id="signup-submit" color="primary" (click)="signUp()">Register</button>
+            </div>
+        </form>
+    </div>
+</div>

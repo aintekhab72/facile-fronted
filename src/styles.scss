@@ -2,4 +2,50 @@
 @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
+    background-color: #e6e7e8; }
+
+
+.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: #222;
+}
+
+.mat-tab-label-active {
+    background: #37bdae;
+    color: #fff !important;
+}
+
+.mat-tab-header {
+    align-self: center;
+}
+
+.tab-section {
+    // background: #fff;
+    padding: 20px 40px;
+    margin-bottom: 30px;
+}
+
+.error {
+    color: #ff0000; 
+    text-align: start
+}
+
+.mt-10 {
+    margin-top: 1em;
+}
+
+.mt-20 {
+    margin-top: 2.5em;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+    color: #222;
+}
+
+.mat-error {
+    font-size: 12px;
+} 
+
+.mat-tab-label {
+    color: #222;
+}

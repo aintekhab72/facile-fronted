@@ -11,6 +11,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { SharedModule } from './shared/shared.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     MatFormFieldModule,
     MatGridListModule,
     MatTabsModule,
-    MatInputModule
+    MatInputModule,
+    NgbModule,
+    SharedModule
   ],
   exports: [
     MatTabsModule
