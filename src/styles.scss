@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #e6e7e8; }
+    background-color: #fff; }
 
 
 .mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
@@ -11,7 +11,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 .mat-tab-label-active {
-    background: #37bdae;
+    background: #3f51b5;
     color: #fff !important;
 }
 
@@ -48,4 +48,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 
 .mat-tab-label {
     color: #222;
+}
+
+.example-full-width {
+    width: 100%;
+}
+
+.auth-button {
+    width: 100%;
+    border-radius: 20px !important;
+    outline: none !important;
 }

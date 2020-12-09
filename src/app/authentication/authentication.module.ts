@@ -8,9 +8,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../shared/shared.module';
 import { SignupComponent } from './components/signup/signup.component';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -27,6 +30,9 @@ import { SignupComponent } from './components/signup/signup.component';
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
+    MatGridListModule,
+    MatDialogModule,
+    MatIconModule,
     SharedModule
   ],
   exports: [

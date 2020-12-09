@@ -7,6 +7,7 @@
     align-items: center;
     justify-content: center;
     padding-top: 30px;
+    margin-bottom: 30px;
 }
 
 .header-section {
@@ -23,9 +24,10 @@
 
 .redirect {
     text-align: center;
+    margin-bottom: 1.5rem;
     span {
         text-decoration: underline;
-        color: #c2185b;
+        color: #3f51b5;
         cursor: pointer;
     }
 }

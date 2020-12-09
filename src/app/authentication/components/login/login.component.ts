@@ -25,9 +25,11 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    if(this.loginForm.valid) {
-      console.log('Login form', this.loginForm.value);
-      
+    if (this.loginForm.valid) {
+      let body = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
+      }
     }
   }
 
