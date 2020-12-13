@@ -16,6 +16,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './components/loader/loader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { ProductsListComponent } from './products-list/products-list.component';
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import { MatBadgeModule } from '@angular/material/badge';
     AppComponent,
     HomeComponent,
     LoaderComponent,
+    ProductsListComponent,
   ],
   imports: [
     BrowserModule,

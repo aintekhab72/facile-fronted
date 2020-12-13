@@ -1,0 +1,257 @@
+.header-section {
+    height: 80px;
+    background: #fff;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    // padding: 0px 20px 0px 30px;
+}
+
+.header-logo{
+    cursor: pointer;
+    left: 36px;
+    @media (max-width : 360px){
+        left:15px;
+    }
+
+    img {
+        width: 150px;
+        @media (max-width : 360px){
+        width:120px;
+        }
+    }
+}
+
+.header-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-nav-link {
+    color: #222;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    text-transform: uppercase;
+    padding: 1.3rem 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.sticky {
+    background: #fff;
+    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+    position: fixed;
+    top: 0;
+    height: 13vh;
+    width: 100%;
+    z-index: 10;
+}
+
+
+
+//Section
+.lined-heading {
+    font-size: 16px;
+    text-transform: uppercase;
+    position: relative;
+    text-align: center;
+    display: block;
+    float: left;
+    width: 100%;
+    line-height: 35px;
+}
+.lined-heading:before {
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    display: block;
+    width: 100%;
+    height: 1px;
+    margin-top: -1px;
+    border-top: 2px dashed #a7a9ac;
+    content: "";
+}
+
+.lined-heading span {
+    position: relative;
+    z-index: 1;
+    padding: 0 30px;
+    background: #fff;
+    display: inline-block;
+    color: #a7a9ac;
+    font-family: source_sans_prosemibold;
+    font-size: 24px;
+}
+  
+.example-card {
+    max-width: 400px;
+  }
+
+.product-list {
+    display: flex;
+    justify-content: space-evenly;
+    align-content: center;
+}
+
+@media(max-width: 600px) {
+    .product-list {
+        flex-direction: column;
+        align-items: center;
+
+        .zoom {
+            width: 50vw;
+        }
+    
+        .htilebtn {
+            font-size: 1.0em;
+        }
+    }
+}
+
+.tilethumb {
+    margin-bottom: 7px;
+    position: relative;
+    height: 100%;
+}
+
+.scaleImg {
+    position: relative;
+}
+
+.htilebtn {
+    color: #fff;
+    font-size: 1.6em;
+    z-index: 9;
+    padding-left: 8px;
+    padding-bottom: 7px;
+    line-height: 1em;
+    bottom: 0;
+    top: unset;
+    font-weight: 900;
+}
+
+.htilebtn {
+    position: absolute;
+    left: 0;
+}
+.txt-upper {
+    text-transform: uppercase;
+}
+
+.zoom {
+    transition: transform .2s;
+    width: 30vw;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.zoom:hover {
+    transform: scale(1.1);
+}
+
+.auth {
+    margin-left: auto;
+    margin-right: 15px;
+}
+
+.header-right-item {
+    color: #222;
+    font-size: 1.1rem;
+    margin-right: 10px;
+    padding: 1.3rem 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.cat-heading {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8rem;
+    padding: 20px;
+    font-weight: 500;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+
+.product-header {
+    display: flex;
+    font-size: 1.2rem;
+    padding: 1.3rem;
+}
+
+.product-body {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.productlist {
+    margin: 0.7rem 1rem;
+    cursor: pointer;
+    position: relative;
+}
+
+.prod-desc {
+    padding: 0px 5px 0px 10px;
+}
+
+.listhover {
+    position: relative;
+    display: block;
+}
+
+.listhoverimg, .listhoverimg:hover {
+    transition: all .3s ease-in;
+    -wekit-transition: all .3s ease-in;
+}
+
+.listhoverimg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-position: 50%;
+    background-size: cover;
+    opacity: 0;
+}
+
+.listhover img {
+    width: 20vw;
+}
+
+.productlist h5 {
+    font-size: 14px;
+    border-bottom: 1px solid rgba(0,0,0,.13);
+    padding: 8px 0 3px;
+    text-align: left;
+    margin-bottom: 0;
+    white-space: nowrap;
+    width: 12em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+
+.row {
+    padding: 1px 0;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.listprice {
+    color: #939598;
+}
+
+.ecltext {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+}

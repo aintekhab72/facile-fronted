@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
 import { CATEGORY } from './../services/mock.response'
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -20,7 +21,7 @@ export class HomeComponent implements OnInit {
   public sliders: Array<any> = [];
   cartItems: number = 5;
 
-  constructor() {
+  constructor(private router: Router) {
     this.sliders.push(
       {
         imagePath: './assets/images/banner1.webp',
@@ -45,7 +46,7 @@ export class HomeComponent implements OnInit {
       return { 
         id: cat.id,
         categoryName: cat.name,
-        categoryImage: cat.image[0]
+        categoryImage: cat.images[0]
       }
     })
   }
@@ -60,5 +61,11 @@ export class HomeComponent implements OnInit {
       element.classList.remove('sticky');
     }
   }
+
+  getProducts(data:any):void {
+    this.router.navigate(['/products'], { queryParams: { category: data.categoryName } });
+    console.log('data', data);
+  }
+
 
 }
