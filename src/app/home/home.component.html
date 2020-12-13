@@ -4,12 +4,28 @@
             <img src="assets/images/ang-logo.png" id="logo" alt="Logo" />
         </div>
         <div class="header-links">
-            <a class="header-nav-link" routerLink="/home">Home</a>
+            <ul class="navbar-nav">
+                <li class="shop nav-item dropdown">
+                    <a class="header-nav-link" routerLink="/home">Home</a>
+                </li>
+                <li class="shop nav-item dropdown">
+                    <a class="header-nav-link">T-Shirts</a>
+                </li>
+                <li class="shop nav-item dropdown">
+                    <a class="header-nav-link">Polos</a>
+                </li>
+            </ul>
+            <!-- <a class="header-nav-link" routerLink="/home">Home</a>
             <a class="header-nav-link">T-Shirts</a>
-            <a class="header-nav-link">Polos</a>
+            <a class="header-nav-link">Polos</a> -->
         </div>
         <div class="auth">
-            <a routerLink="/auth">Login / Register</a>
+            <a class="header-right-item" routerLink="/auth">
+                <mat-icon>account_circle</mat-icon>
+            </a>
+            <a class="header-right-item" routerLink="/auth">
+                <mat-icon matBadge="{{cartItems}}" matBadgeColor="warn">shopping_cart</mat-icon>
+            </a>
         </div>
     </div>
 </section>
@@ -24,9 +40,9 @@
 <!-- Banner Ends here -->
 
 <section class="mt-10" (scroll)="onWindowScroll($event);">
-    <!-- <div class="lined-heading">
-        <span>PRODUCTS</span>
-    </div> -->
+    <div class="cat-heading">
+        <span>CATEGORIES</span>
+    </div>
 
     <div class="product-list">
         <div *ngFor="let data of category" class="tilethumb">

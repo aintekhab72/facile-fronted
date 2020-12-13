@@ -14,6 +14,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { SharedModule } from './shared/shared.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LoaderComponent } from './components/loader/loader.component';
+import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
+
 
 @NgModule({
   declarations: [
@@ -33,6 +36,8 @@ import { LoaderComponent } from './components/loader/loader.component';
     MatTabsModule,
     MatInputModule,
     NgbModule,
+    MatIconModule,
+    MatBadgeModule,
     SharedModule
   ],
   exports: [

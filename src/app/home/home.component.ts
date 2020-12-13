@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener, Inject } from '@angular/core';
 import { trigger, state, transition, style, animate } from '@angular/animations';
 import { DOCUMENT } from '@angular/common';
+import { CATEGORY } from './../services/mock.response'
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -17,6 +18,7 @@ import { DOCUMENT } from '@angular/common';
 export class HomeComponent implements OnInit {
   category: any = [];
   public sliders: Array<any> = [];
+  cartItems: number = 5;
 
   constructor() {
     this.sliders.push(
@@ -39,16 +41,13 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.category = [
-      {
-        categoryName: 't-shirts',
-        categoryImage: './assets/images/t-shirt.png'
-      },
-      {
-        categoryName: 'polo t-shirts',
-        categoryImage: './assets/images/t-shirt.png'
+    this.category = CATEGORY.map(cat => {
+      return { 
+        id: cat.id,
+        categoryName: cat.name,
+        categoryImage: cat.image[0]
       }
-    ]
+    })
   }
 
   @HostListener('window:scroll', ['$event'])

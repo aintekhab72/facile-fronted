@@ -30,7 +30,12 @@
 
 .header-nav-link {
     color: #222;
-    font-size: 16px;
+    font-size: 1.1rem;
+    margin-left: 10px;
+    text-transform: uppercase;
+    padding: 1.3rem 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
 }
 
 .sticky {
@@ -138,9 +143,38 @@
     transition: transform .2s;
     width: 30vw;
     margin: 0 auto;
-    background-color: #3c796e;
+    cursor: pointer;
+}
+
+.zoom:hover {
+    transform: scale(1.1);
 }
 
 .auth {
     margin-left: auto;
+    margin-right: 15px;
+}
+
+.header-right-item {
+    color: #222;
+    font-size: 1.1rem;
+    margin-right: 10px;
+    padding: 1.3rem 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.cat-heading {
+    display: flex;
+    justify-content: center;
+    font-size: 1.8rem;
+    padding: 20px;
+    font-weight: 500;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    padding-left: 0;
+    margin-bottom: 0;
 }

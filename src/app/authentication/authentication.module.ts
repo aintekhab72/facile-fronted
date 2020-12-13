@@ -14,6 +14,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatGridListModule,
     MatDialogModule,
     MatIconModule,
+    MatBadgeModule,
     SharedModule
   ],
   exports: [
