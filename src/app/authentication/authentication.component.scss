@@ -1,25 +1,33 @@
-.bgcolor {
-    background-color: #e6e7e8;
-}
+// .bgcolor {
+//     background-color: #e6e7e8;
+// }
 
 .auth-section {
     display: flex;
     align-items: center;
     justify-content: center;
     padding-top: 30px;
-}
-
-.loginbox {
-    background: #fff;
-    padding: 10px 40px 40px;
     margin-bottom: 30px;
 }
 
-.loginbox .title {
-    padding: 15px 0;
-    text-align: center;
+.header-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 30px;
 }
 
-.f16 {
-    font-size: 16px;
+.header-title {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
+
+.redirect {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    span {
+        text-decoration: underline;
+        color: #3f51b5;
+        cursor: pointer;
+    }
 }

@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import {
+  FormBuilder,
+  FormGroup,
+  FormArray,
+  FormControl,
+  Validators
+} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -6,10 +13,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  public loginForm!: FormGroup;
 
-  constructor() { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.loginForm = this.fb.group({
+      email: new FormControl("", [Validators.required, Validators.pattern(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/)]),
+      password: new FormControl("", [Validators.required])
+    });
+  }
+
+  login() {
+    if (this.loginForm.valid) {
+      let body = {
+        email: this.loginForm.value.email,
+        password: this.loginForm.value.password
+      }
+    }
   }
 
 }
