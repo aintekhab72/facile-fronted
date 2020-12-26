@@ -1,0 +1,31 @@
+{
+    "general": {
+        "company_name": "Facile",
+        "validation_required_field": "Required"
+    },
+    "general_ts": {
+
+    },
+    "authentication" : {
+        "login": "Login",
+        "label_login": "LOGIN",
+        "label_register": "REGISTER",
+        "new_user": "New user ?",
+        "already_a_user": "Already a user ?",
+        "create_account": "Create Account",
+        "login_with_facile": "Login with the Facile",
+        "register_with_facile": "Register with the Facile",
+        "label_email": "Email",
+        "label_password": "Password",
+        "placeholder_email": "Ex: example@mail.com",
+        "placeholder_password": "Ex: *****",
+        "label_first_name": "First Name",
+        "label_middle_name": "Middle Name",
+        "label_last_name": "Last Name",
+        "enter_valid_email": "Please provide valid email",
+        "label_mobile": "Mobile",
+        "label_new_password": "New Password",
+        "password_pattern_validation_message": "Password must contain atleast 8 characters \n (An uppercase letter,a number and a special character)",
+        "password_match_validation_message": "Password didn't match"
+    }
+}

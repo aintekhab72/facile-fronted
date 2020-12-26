@@ -1,17 +1,17 @@
 <section class="bgcolor">
     <div class="header-section">
-        <div *ngIf="isLogin" class="header-title">Login with the Facile</div>
-        <div *ngIf="isSignup" class="header-title">Register with the Facile</div>
+        <div *ngIf="isLogin" class="header-title">{{'authentication.login_with_facile' | translate}}</div>
+        <div *ngIf="isSignup" class="header-title">{{'authentication.register_with_facile' | translate}}</div>
     </div>
     <div class="auth-section">
         <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="selectTab($event)">
-            <mat-tab label="LOGIN">
+            <mat-tab label="{{'authentication.label_login' | translate}}">
                 <app-login *ngIf="isLogin"></app-login>
-                <div class="redirect">New User ? <span (click)="redirectTo(1)">Create Account</span></div>
+                <div class="redirect">{{'authentication.new_user' | translate}} <span (click)="redirectTo(1)">{{'authentication.create_account' | translate}}</span></div>
             </mat-tab>
-            <mat-tab label="REGISTER">
+            <mat-tab label="{{'authentication.label_register' | translate}}">
                 <app-signup *ngIf="isSignup"></app-signup>
-                <div class="redirect">Already a User ? <span (click)="redirectTo(0)"> Login </span></div>
+                <div class="redirect">{{'authentication.already_a_user' | translate}} <span (click)="redirectTo(0)"> {{'authentication.login' | translate}} </span></div>
             </mat-tab>
         </mat-tab-group>
     </div>
