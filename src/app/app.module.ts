@@ -17,6 +17,19 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { ProductsListComponent } from './products-list/products-list.component';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+
+export function createTranslateLoader(http: HttpClient): any {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function setupTranslateFactory(service: TranslateService): Function {
+   return () => service.use('en');
+ }
+
 
 
 @NgModule({
@@ -30,6 +43,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -40,7 +54,14 @@ import { ProductsListComponent } from './products-list/products-list.component';
     NgbModule,
     MatIconModule,
     MatBadgeModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
   ],
   exports: [
     MatTabsModule

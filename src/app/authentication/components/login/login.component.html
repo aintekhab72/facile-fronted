@@ -3,18 +3,18 @@
         <form [formGroup]="loginForm">
             <div class="mt-10">
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Email</mat-label>
-                    <input matInput placeholder="Email" formControlName="email">
+                    <mat-label>{{'authentication.label_email' | translate}}</mat-label>
+                    <input matInput placeholder="{{'authentication.placeholder_email' | translate}}" formControlName="email">
                 </mat-form-field>
             </div>
             <div class="mt-10">
                 <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="Password" formControlName="password">
+                    <mat-label>{{'authentication.label_password' | translate}}</mat-label>
+                    <input matInput placeholder="{{'authentication.placeholder_password' | translate}}" formControlName="password">
                 </mat-form-field>
             </div>
             <div class="example-button-row mt-10">
-                <button mat-raised-button class="auth-button" color="primary" (click)="login()">Login</button>
+                <button mat-raised-button class="auth-button" color="primary" (click)="login()">{{'authentication.login' | translate}}</button>
             </div>
         </form>
     </div>
