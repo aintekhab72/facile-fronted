@@ -1,60 +1,36 @@
-<section>
-    <div class="header-section animated fadeInDown" id="navbar">
-        <div class="header-logo" id="header-navigate">
-            <img src="assets/images/ang-logo.png" id="logo" alt="Logo" />
-        </div>
-        <div class="header-links">
-            <ul class="navbar-nav">
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link" routerLink="/">Home</a>
-                </li>
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link">T-Shirts</a>
-                </li>
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link">Polos</a>
-                </li>
-            </ul>
-        </div>
-        <div class="auth">
-            <a class="header-right-item" routerLink="/auth">
-                <mat-icon>account_circle</mat-icon>
-            </a>
-            <a class="header-right-item" routerLink="/auth">
-                <mat-icon matBadge="5" matBadgeColor="warn">shopping_cart</mat-icon>
-            </a>
-        </div>
-    </div>
-</section>
-
 <ngb-carousel>
-    <ng-template ngbSlide *ngFor="let slider of sliders">
-        <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-    </ng-template>
+  <ng-template ngbSlide *ngFor="let slider of sliders">
+    <img
+      class="img-fluid mx-auto d-block"
+      [src]="slider.imagePath"
+      alt="Random first slide"
+      width="100%"
+    />
+  </ng-template>
 </ngb-carousel>
 
 <section>
-    <div class="product-header">
-        <div>{{categoryName}}</div>
-    </div>
-    <hr>
-    <div class="product-body">
-        <div *ngFor="let prod of productList">
-            <div class="productlist">
-                <a class="listhover">
-                    <!-- <div class="listhoverimg" style="background-image: url({{prod.images[1]}});"></div> -->
-                    <img src="{{prod.images[0]}}" alt="">
-                </a>
-                <div class="prod-desc">
-                    <h5>{{prod.name}}</h5>
-                    <div class="row">
-                        <div class="col-12 listprice ecltext">{{prod.category}}</div>
-                        <div class="col-12">
-                            <span>Rs. {{prod.sp}}</span>
-                        </div>
-                    </div>
-                </div>
+  <div class="product-header">
+    <div>{{ categoryName }}</div>
+  </div>
+  <hr />
+  <div class="product-body">
+    <div *ngFor="let prod of productList">
+      <div class="productlist">
+        <a class="listhover">
+          <!-- <div class="listhoverimg" style="background-image: url({{prod.images[1]}});"></div> -->
+          <img src="{{ prod.images[0] }}" alt="" />
+        </a>
+        <div class="prod-desc">
+          <h5>{{ prod.name }}</h5>
+          <div class="row">
+            <div class="col-12 listprice ecltext">{{ prod.category }}</div>
+            <div class="col-12">
+              <span>Rs. {{ prod.sp }}</span>
             </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </section>

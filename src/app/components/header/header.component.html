@@ -1,0 +1,33 @@
+<section>
+  <div class="header-section animated fadeInDown" id="navbar">
+    <div class="header-logo" id="header-navigate">
+      <img src="assets/images/logo.jpeg" id="logo" alt="Logo" routerLink="/" />
+    </div>
+    <div class="header-links">
+      <ul class="navbar-nav">
+        <li class="shop nav-item dropdown">
+          <a class="header-nav-link" routerLink="/">Home</a>
+        </li>
+        <li class="shop nav-item dropdown">
+          <a class="header-nav-link">T-Shirts</a>
+        </li>
+        <li class="shop nav-item dropdown">
+          <a class="header-nav-link">Polos</a>
+        </li>
+        <li class="shop nav-item dropdown">
+          <a class="header-nav-link">Shorts</a>
+        </li>
+      </ul>
+    </div>
+    <div class="auth">
+      <a class="header-right-item" routerLink="/auth">
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <a class="header-right-item" routerLink="/auth">
+        <mat-icon matBadge="{{ cartItems }}" matBadgeColor="warn"
+          >shopping_cart</mat-icon
+        >
+      </a>
+    </div>
+  </div>
+</section>

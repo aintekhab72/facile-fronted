@@ -59,3 +59,25 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
     border-radius: 20px !important;
     outline: none !important;
 }
+
+
+/* Header part - start here */
+.header-section {
+    height: 80px;
+    background: #d4af37;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+    // padding: 0px 20px 0px 30px;
+}
+
+.sticky {
+    background: #d4af37;
+    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
+    position: fixed;
+    top: 0;
+    height: 13vh;
+    width: 100%;
+    z-index: 10;
+}
+/* Header part - end here */

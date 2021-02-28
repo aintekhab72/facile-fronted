@@ -17,6 +17,7 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { ProductsListComponent } from './products-list/products-list.component';
+import { HeaderComponent } from './components/header/header.component';
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import { ProductsListComponent } from './products-list/products-list.component';
     HomeComponent,
     LoaderComponent,
     ProductsListComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
