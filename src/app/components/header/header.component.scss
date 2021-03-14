@@ -1,13 +1,14 @@
 .header-logo{
     cursor: pointer;
     // left: 36px;
-    margin-left: 8px;
+    margin-left: 100px;
     @media (max-width : 360px){
         left:15px;
     }
 
     img {
-        width: 103px;
+        width: 120px;
+        outline: none;
         @media (max-width : 360px){
         width:120px;
         }
