@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PRODUCTS } from "./../services/mock.response";
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-products-list",
@@ -12,7 +13,7 @@ export class ProductsListComponent implements OnInit {
   productList: Array<any> = [];
   sliders: Array<any> = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.sliders.push(
@@ -55,5 +56,34 @@ export class ProductsListComponent implements OnInit {
 
   getProductList(category: any) {
     this.productList = PRODUCTS;
+  }
+
+  addTOCart(prod:any, size:any, quantity:any) {
+    let cartItems = localStorage.getItem('cartItems');
+    if(cartItems) {
+      let productList:any = JSON.parse(cartItems)
+      let found: boolean = false;
+      for (const product of productList.items) {
+        if(product.id === prod.id) {
+          found = true
+          product.quantity +=quantity;
+        }
+      }
+      if(!found) {
+        productList.items.push({...prod, size: size, quantity:quantity})
+      }
+      localStorage.setItem('cartItems', JSON.stringify(productList));
+      this.snackBar.open('Product added to your cart successfully!', 'Close', {
+        duration: 2000,
+      });
+    } else {
+      let prepartCartObj = {
+        items: [ {...prod, size: size, quantity:quantity}]
+      }
+      localStorage.setItem('cartItems', JSON.stringify(prepartCartObj));
+      this.snackBar.open('Product added to your cart successfully!', 'Close', {
+        duration: 2000,
+      });
+    }
   }
 }

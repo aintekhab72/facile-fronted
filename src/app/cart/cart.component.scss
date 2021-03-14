@@ -1,0 +1,23 @@
+.cart-box {
+    border: 1px solid #eee;
+    padding: 20px;
+}
+
+.cart-box img {
+    width: 70%;
+}
+
+.cart-desc {
+    display: flex;
+    flex-direction: column;
+}
+
+.empty-cart {
+    width: 40%;
+}
+
+.empty-cart-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

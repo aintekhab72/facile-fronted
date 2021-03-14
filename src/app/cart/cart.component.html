@@ -1,0 +1,32 @@
+<mat-horizontal-stepper linear #stepper>
+  <mat-step>
+    <ng-template matStepLabel>CART</ng-template>
+    <div *ngFor="let cart of cartItems">
+      <div class="row cart-box mt-4">
+        <div class="col-md-3 col-sm-3 col-4">
+          <img src="{{ cart.images[0] }}" alt="" />
+        </div>
+        <div class="col-md-3 col-sm-3 col-4 cart-desc">
+          <label class="mt-2">{{ cart.name }}</label>
+          <label class="mt-2">{{ cart.category }}</label>
+          <label class="mt-2">SIZE : {{ cart.size }}</label>
+          <label class="mt-2">QTY : {{ cart.quantity }}</label>
+        </div>
+        <div class="col-md-3 col-sm-3 col-4">
+          <button (click)="removeItems(cart)">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="cartItems.length === 0" class="empty-cart-box">
+      <img class="empty-cart" src="./assets/images/empty-cart.png" alt="Empty-cart"/>
+      <h3>Your Shopping Cart is empty.</h3>
+      <h3>Please add something soon, cart have feelings too.</h3>
+    </div>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>ADDRESS</ng-template>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>PAYMENT</ng-template>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -18,6 +18,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HeaderComponent } from './components/header/header.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { HeaderComponent } from './components/header/header.component';
     NgbModule,
     MatIconModule,
     MatBadgeModule,
+    MatSnackBarModule,
     SharedModule
   ],
   exports: [
