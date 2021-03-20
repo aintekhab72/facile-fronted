@@ -1,6 +1,11 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { CART } from "../services/mock.response";
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl
+} from "@angular/forms";
+import { CART, ADDRESS } from "../services/mock.response";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   SNACK_BAR_DURATION,
@@ -37,10 +42,12 @@ export class CartComponent implements OnInit {
     "10"
   ];
 
-  constructor(
-    private _formBuilder: FormBuilder,
-    private snackBar: MatSnackBar
-  ) {}
+  //Address
+  public addressForm!: FormGroup;
+  public addressList = ADDRESS;
+  public showAddressFields: boolean = false;
+
+  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
 
   ngOnInit() {
     //Read cart items from local storage
@@ -52,6 +59,15 @@ export class CartComponent implements OnInit {
     } else {
       this.cartItems = [];
     }
+
+    this.addressForm = this.fb.group({
+      addressLine1: new FormControl("", [Validators.required]),
+      addressLine2: new FormControl("", [Validators.required]),
+      city: new FormControl("", [Validators.required]),
+      state: new FormControl("", [Validators.required]),
+      country: new FormControl("", [Validators.required]),
+      pincode: new FormControl("", [Validators.required])
+    });
   }
 
   removeItems(cart: any) {
@@ -116,5 +132,25 @@ export class CartComponent implements OnInit {
   goToNextStep() {
     this.stepper.selected.completed = true;
     this.stepper.next();
+  }
+
+  //Address
+  addAddress() {
+    if (this.addressForm.valid) {
+      console.log(this.addressForm.value);
+      const addressObj = {
+        addressLine1: this.addressForm.value.addressLine1,
+        addressLine2: this.addressForm.value.addressLine2,
+        city: this.addressForm.value.city,
+        state: this.addressForm.value.state,
+        country: this.addressForm.value.country,
+        pincode: this.addressForm.value.pincode
+      };
+      this.addressList.push(addressObj);
+      this.snackBar.open("Address added successfully!", "Close", {
+        duration: SNACK_BAR_DURATION
+      });
+      this.addressForm.reset();
+    }
   }
 }

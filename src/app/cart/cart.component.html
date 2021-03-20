@@ -8,7 +8,11 @@
           <span>Total Payable: ₹ {{ totalPayable }}</span>
         </div>
         <div class="col-md-3">
-          <button mat-raised-button class="place-order-btn" (click)="goToNextStep()">
+          <button
+            mat-raised-button
+            class="place-order-btn"
+            (click)="goToNextStep()"
+          >
             PLACE ORDER
           </button>
         </div>
@@ -93,6 +97,104 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>ADDRESS</ng-template>
+    <div *ngIf="addressList && addressList.length > 0" class="mt-4">
+      <label class="ml-3 label-text">Select Address</label>
+      <div class="row">
+        <div
+          class="col-md-5 address-box ml-4 mt-4"
+          *ngFor="let address of addressList"
+        >
+          <span>{{ address.addressLine1 }} </span>
+          <span>{{ address.addressLine2 }}</span>
+          <br />
+          <span>{{ address.city }}, </span>
+          <span>{{ address.state }}, </span>
+          <span>{{ address.country }} </span>
+          <br />
+          <span>{{ address.pincode }}</span>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button mat-raised-button class="mt-5 primary-color-btn" (click)="showAddressFields = true;">
+        ADD ADDRESS
+      </button>
+    </div>
+    <div class="address-cart mt-4" *ngIf="showAddressFields">
+      <form [formGroup]="addressForm">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Address Line1 </mat-label>
+                <input
+                  matInput
+                  placeholder="Address Line1"
+                  formControlName="addressLine1"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Address Line2 </mat-label>
+                <input
+                  matInput
+                  placeholder="Address Line2"
+                  formControlName="addressLine2"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>City </mat-label>
+                <input matInput placeholder="City" formControlName="city" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>State </mat-label>
+                <input matInput placeholder="state" formControlName="state" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Country </mat-label>
+                <input
+                  matInput
+                  placeholder="country"
+                  formControlName="country"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Pin Code </mat-label>
+                <input matInput placeholder="pin" formControlName="pincode" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="example-button-row mt-10">
+            <button
+              mat-raised-button
+              class="primary-color-btn"
+              (click)="addAddress()"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>PAYMENT</ng-template>
