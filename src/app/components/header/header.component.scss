@@ -34,6 +34,9 @@
 .auth {
     margin-left: auto;
     margin-right: 15px;
+    @media screen and (max-width: 767px) {
+        display: none;    
+    }
 }
 
 .header-right-item {
@@ -50,4 +53,8 @@
     flex-direction: row;
     padding-left: 0;
     margin-bottom: 0;
+
+    @media screen and (max-width: 767px) {
+        display: none;    
+    }
 }

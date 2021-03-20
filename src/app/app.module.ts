@@ -19,7 +19,8 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HeaderComponent } from './components/header/header.component';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatIconModule,
     MatBadgeModule,
     MatSnackBarModule,
+    MatButtonModule,
+    MatSelectModule,
     SharedModule
   ],
   exports: [

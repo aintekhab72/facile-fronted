@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { PRODUCTS } from "./../services/mock.response";
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SNACK_BAR_DURATION } from '../utils/constants.utils';
 
 @Component({
   selector: "app-products-list",
@@ -74,7 +75,7 @@ export class ProductsListComponent implements OnInit {
       }
       localStorage.setItem('cartItems', JSON.stringify(productList));
       this.snackBar.open('Product added to your cart successfully!', 'Close', {
-        duration: 2000,
+        duration: SNACK_BAR_DURATION,
       });
     } else {
       let prepartCartObj = {
@@ -82,7 +83,7 @@ export class ProductsListComponent implements OnInit {
       }
       localStorage.setItem('cartItems', JSON.stringify(prepartCartObj));
       this.snackBar.open('Product added to your cart successfully!', 'Close', {
-        duration: 2000,
+        duration: SNACK_BAR_DURATION,
       });
     }
   }

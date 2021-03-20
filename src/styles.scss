@@ -1,83 +1,121 @@
 /* You can add global styles to this file, and also import other style files */
-@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
-    background-color: #fff; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background-color: #fff;
+}
 
-
-.mat-tab-group.mat-primary .mat-ink-bar, .mat-tab-nav-bar.mat-primary .mat-ink-bar {
-    background-color: #222;
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #222;
 }
 
 .mat-tab-label-active {
-    background: #3f51b5;
-    color: #fff !important;
+  background: #3f51b5;
+  color: #fff !important;
 }
 
 .mat-tab-header {
-    align-self: center;
+  align-self: center;
 }
 
 .tab-section {
-    // background: #fff;
-    padding: 20px 40px;
-    margin-bottom: 30px;
+  // background: #fff;
+  padding: 20px 40px;
+  margin-bottom: 30px;
 }
 
 .error {
-    color: #ff0000; 
-    text-align: start
+  color: #ff0000;
+  text-align: start;
 }
 
 .mt-10 {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
 .mt-20 {
-    margin-top: 2.5em;
+  margin-top: 2.5em;
 }
 
 .mat-form-field-appearance-legacy .mat-form-field-label {
-    color: #222;
+  color: #222;
 }
 
 .mat-error {
-    font-size: 12px;
-} 
+  font-size: 12px;
+}
 
 .mat-tab-label {
-    color: #222;
+  color: #222;
 }
 
 .example-full-width {
-    width: 100%;
+  width: 100%;
 }
 
 .auth-button {
-    width: 100%;
-    border-radius: 20px !important;
-    outline: none !important;
+  width: 100%;
+  border-radius: 20px !important;
+  outline: none !important;
 }
-
 
 /* Header part - start here */
 .header-section {
-    height: 80px;
-    background: #c29200;
-    display: flex;
-    // justify-content: space-between;
-    align-items: center;
-    // padding: 0px 20px 0px 30px;
+  height: 80px;
+  background: #c29200;
+  display: flex;
+  // justify-content: space-between;
+  align-items: center;
+  // padding: 0px 20px 0px 30px;
 }
 
 .sticky {
-    background: #c29200;
-    box-shadow: 0 3px 12px 0 rgba(0,0,0,.08);
-    position: fixed;
-    top: 0;
-    height: 13vh;
-    width: 100%;
-    z-index: 10;
+  background: #c29200;
+  box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.08);
+  position: fixed;
+  top: 0;
+  height: 13vh;
+  width: 100%;
+  z-index: 10;
 }
 /* Header part - end here */
+
+/* flexbox - start here */
+.disp-flex-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.disp-flex {
+  display: flex;
+}
+/* flexbox - end here */
+
+.place-order-btn {
+  background-color: #298e83;
+  border-color: #298e83;
+  color: #fff;
+  width: 100%;
+  outline: none;
+  @media screen and (max-width: 767px) {
+    display: none;
+  }
+}
+
+.place-order-footer {
+  display: none;
+  @media screen and (max-width: 767px) {
+    display: block;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+  }
+}

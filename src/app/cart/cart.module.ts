@@ -14,6 +14,9 @@ import { MatTabsModule } from "@angular/material/tabs";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MatButtonModule} from '@angular/material/button';
+import {MatDividerModule} from '@angular/material/divider';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [CartComponent],
@@ -32,6 +35,9 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
     MatIconModule,
     MatBadgeModule,
     MatSnackBarModule,
+    MatButtonModule,
+    MatDividerModule,
+    MatListModule,
     SharedModule
   ],
   exports: [CartRoutingModule]

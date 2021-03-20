@@ -21,3 +21,36 @@
     flex-direction: column;
     align-items: center;
 }
+
+.vertical-line {
+    border-left: 2px solid #000;
+    height: 32px;
+}
+
+.horizontal-line {
+    border-top: 1px solid #e6e9ec;
+    height: 2px;
+    width: 100%;
+}
+
+.cart-name {
+    font-weight: 600;
+    color: #000;
+    font-size: 15px;
+}
+
+.cart-category {
+    color: #a7a9ac;
+    font-size: 13px;
+    font-style: italic;
+}
+
+.billing-cart-box {
+    justify-content: space-between;
+    border: 1px solid #eee;
+    padding: 10px;
+}
+
+.items-total {
+    justify-content: space-between;
+}
