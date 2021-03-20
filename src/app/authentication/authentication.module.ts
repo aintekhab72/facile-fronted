@@ -15,6 +15,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatDialogModule,
     MatIconModule,
     MatBadgeModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   exports: [
     AuthenticationRoutingModule

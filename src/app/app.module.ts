@@ -21,6 +21,20 @@ import { HeaderComponent } from './components/header/header.component';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
+import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+
+export function createTranslateLoader(http: HttpClient): any {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
+}
+
+export function setupTranslateFactory(service: TranslateService): Function {
+   return () => service.use('en');
+ }
+
+
 
 @NgModule({
   declarations: [
@@ -34,6 +48,7 @@ import {MatSelectModule} from '@angular/material/select';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
+    HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MatCardModule,
@@ -47,7 +62,14 @@ import {MatSelectModule} from '@angular/material/select';
     MatSnackBarModule,
     MatButtonModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
   ],
   exports: [
     MatTabsModule
