@@ -6,8 +6,10 @@ import {
   style,
   animate
 } from "@angular/animations";
-import { CATEGORY } from "./../services/mock.response";
 import { Router } from "@angular/router";
+import { CategoryService } from "../services/category.service";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 @Component({
   selector: "app-home",
   templateUrl: "./home.component.html",
@@ -24,7 +26,11 @@ export class HomeComponent implements OnInit {
   category: any = [];
   public sliders: Array<any> = [];
 
-  constructor(private router: Router) {
+  constructor(
+    private router: Router,
+    private categoryService: CategoryService,
+    private snackBar: MatSnackBar
+  ) {
     this.sliders.push(
       {
         imagePath: "./assets/images/banner1.webp",
@@ -45,13 +51,28 @@ export class HomeComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.category = CATEGORY.map(cat => {
-      return {
-        id: cat.id,
-        categoryName: cat.name,
-        categoryImage: cat.images[0]
-      };
-    });
+    this.getCategoryList();
+  }
+
+  getCategoryList() {
+    this.categoryService.getCategories().subscribe(
+      data => {
+        this.category = data.data.map((cat: any) => {
+          return {
+            id: cat._id,
+            categoryName: cat.name,
+            categoryImage: cat.url
+          };
+        });
+      },
+      (error: any) => {
+        let errorMessage = error.message || "No categories";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
+      }
+    );
   }
 
   @HostListener("window:scroll", ["$event"])
@@ -67,8 +88,7 @@ export class HomeComponent implements OnInit {
 
   getProducts(data: any): void {
     this.router.navigate(["/products"], {
-      queryParams: { category: data.categoryName }
+      queryParams: { category: data.id, categoryName: data.categoryName }
     });
-    console.log("data", data);
   }
 }

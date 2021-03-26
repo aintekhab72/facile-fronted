@@ -5,14 +5,12 @@
         <li class="shop nav-item dropdown">
           <a class="header-nav-link" routerLink="/">Home</a>
         </li>
-        <li class="shop nav-item dropdown">
-          <a class="header-nav-link">T-Shirts</a>
-        </li>
-        <li class="shop nav-item dropdown">
-          <a class="header-nav-link">Polos</a>
-        </li>
-        <li class="shop nav-item dropdown">
-          <a class="header-nav-link">Shorts</a>
+        <li
+          class="shop nav-item dropdown"
+          *ngFor="let cat of category"
+          (click)="getProducts(cat)"
+        >
+          <a class="header-nav-link">{{ cat.categoryName }}</a>
         </li>
       </ul>
     </div>

@@ -120,7 +120,6 @@ body {
   }
 }
 
-
 //label
 
 .label-text {
@@ -135,3 +134,17 @@ body {
   color: #fff;
   outline: none !important;
 }
+
+/*SNACK BAR - START HERE*/
+.snack-error-message {
+  background-color: #fa6469;
+  color: #fff;
+}
+
+.snack-error-message button {
+  background-color: #fff;
+  color: #000;
+  outline: none;
+}
+
+/*SNACKBAR - END HERE*/

@@ -116,7 +116,11 @@
       </div>
     </div>
     <div>
-      <button mat-raised-button class="mt-5 primary-color-btn" (click)="showAddressFields = true;">
+      <button
+        mat-raised-button
+        class="mt-5 primary-color-btn"
+        (click)="showAddressFields = true"
+      >
         ADD ADDRESS
       </button>
     </div>
@@ -141,7 +145,7 @@
                 <mat-label>Address Line2 </mat-label>
                 <input
                   matInput
-                  placeholder="Address Line2"
+                  placeholder="street, area"
                   formControlName="addressLine2"
                 />
               </mat-form-field>
