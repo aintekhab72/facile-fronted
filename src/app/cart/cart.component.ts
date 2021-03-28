@@ -75,7 +75,7 @@ export class CartComponent implements OnInit {
     if (cartItems) {
       //remove items
       let productList: any = JSON.parse(cartItems);
-      const data = productList.items.filter((item: any) => item.id !== cart.id);
+      const data = productList.items.filter((item: any) => item._id !== cart._id);
       let prepartCartObj = {
         items: data
       };
@@ -107,7 +107,7 @@ export class CartComponent implements OnInit {
     if (cartItems) {
       let productList: any = JSON.parse(cartItems);
       for (const product of productList.items) {
-        if (product.id === prod.id) {
+        if (product._id === prod._id) {
           product.quantity = event.target.value;
         }
       }

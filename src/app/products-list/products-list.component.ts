@@ -1,9 +1,7 @@
 import { Component, OnInit, HostListener } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { PRODUCTS } from "./../services/mock.response";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
-import { AuthenticationService } from "../services/authentication.service";
 import { HttpParams } from "@angular/common/http";
 import { ProductsService } from "../services/products.service";
 
@@ -89,7 +87,7 @@ export class ProductsListComponent implements OnInit {
       let productList: any = JSON.parse(cartItems);
       let found: boolean = false;
       for (const product of productList.items) {
-        if (product.id === prod.id) {
+        if (product._id === prod._id) {
           found = true;
           product.quantity += quantity;
         }
