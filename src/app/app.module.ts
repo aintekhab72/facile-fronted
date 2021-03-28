@@ -17,6 +17,10 @@ import { LoaderComponent } from './components/loader/loader.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatBadgeModule } from '@angular/material/badge';
 import { ProductsListComponent } from './products-list/products-list.component';
+import { HeaderComponent } from './components/header/header.component';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import {MatButtonModule} from '@angular/material/button';
+import {MatSelectModule} from '@angular/material/select';
 import { TranslateLoader, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
@@ -38,6 +42,7 @@ export function setupTranslateFactory(service: TranslateService): Function {
     HomeComponent,
     LoaderComponent,
     ProductsListComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +59,9 @@ export function setupTranslateFactory(service: TranslateService): Function {
     NgbModule,
     MatIconModule,
     MatBadgeModule,
+    MatSnackBarModule,
+    MatButtonModule,
+    MatSelectModule,
     SharedModule,
     TranslateModule.forRoot({
       loader: {

@@ -1,54 +1,33 @@
-<section>
-    <div class="header-section animated fadeInDown" id="navbar">
-        <div class="header-logo" id="header-navigate">
-            <img src="assets/images/ang-logo.png" id="logo" alt="Logo" />
-        </div>
-        <div class="header-links">
-            <ul class="navbar-nav">
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link" routerLink="/">Home</a>
-                </li>
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link">T-Shirts</a>
-                </li>
-                <li class="shop nav-item dropdown">
-                    <a class="header-nav-link">Polos</a>
-                </li>
-            </ul>
-            <!-- <a class="header-nav-link" routerLink="/home">Home</a>
-            <a class="header-nav-link">T-Shirts</a>
-            <a class="header-nav-link">Polos</a> -->
-        </div>
-        <div class="auth">
-            <a class="header-right-item" routerLink="/auth">
-                <mat-icon>account_circle</mat-icon>
-            </a>
-            <a class="header-right-item" routerLink="/auth">
-                <mat-icon matBadge="{{cartItems}}" matBadgeColor="warn">shopping_cart</mat-icon>
-            </a>
-        </div>
-    </div>
-</section>
-<!-- Create separate component for header -->
-
 <!-- Banner start here -->
 <ngb-carousel>
-    <ng-template ngbSlide *ngFor="let slider of sliders">
-        <img class="img-fluid mx-auto d-block" [src]="slider.imagePath" alt="Random first slide" width="100%">
-    </ng-template>
+  <ng-template ngbSlide *ngFor="let slider of sliders">
+    <img
+      class="img-fluid mx-auto d-block"
+      [src]="slider.imagePath"
+      alt="Random first slide"
+      width="100%"
+    />
+  </ng-template>
 </ngb-carousel>
 <!-- Banner Ends here -->
 
-<section class="mt-10" (scroll)="onWindowScroll($event);">
-    <div class="cat-heading">
-        <span>CATEGORIES</span>
-    </div>
+<section class="mt-10" (scroll)="onWindowScroll($event)">
+  <div class="cat-heading">
+    <span>CATEGORIES</span>
+  </div>
 
-    <div class="product-list">
-        <div *ngFor="let data of category" class="tilethumb" (click)="getProducts(data)">
-            <div class="htilebtn txt-upper fbold">{{data.categoryName}}</div>
-            <img src="{{data.categoryImage}}" class="zoom" alt="{{data.categoryName}}">
-        </div>
+  <div class="product-list">
+    <div
+      *ngFor="let data of category"
+      class="tilethumb"
+      (click)="getProducts(data)"
+    >
+      <div class="htilebtn txt-upper fbold">{{ data.categoryName }}</div>
+      <img
+        src="{{ data.categoryImage }}"
+        class="zoom"
+        alt="{{ data.categoryName }}"
+      />
     </div>
-
+  </div>
 </section>
