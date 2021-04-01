@@ -46,6 +46,9 @@ export class CartComponent implements OnInit {
   public addressForm!: FormGroup;
   public addressList = ADDRESS;
   public showAddressFields: boolean = false;
+  public addressId = 3;
+  public event = "add_address";
+  public selectedAddress:any;
 
   constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
 
@@ -61,12 +64,14 @@ export class CartComponent implements OnInit {
     }
 
     this.addressForm = this.fb.group({
+      id: 0,
       addressLine1: new FormControl("", [Validators.required]),
       addressLine2: new FormControl("", [Validators.required]),
       city: new FormControl("", [Validators.required]),
       state: new FormControl("", [Validators.required]),
       country: new FormControl("", [Validators.required]),
-      pincode: new FormControl("", [Validators.required])
+      pincode: new FormControl("", [Validators.required]),
+      landmark: new FormControl("", [Validators.required])
     });
   }
 
@@ -75,7 +80,9 @@ export class CartComponent implements OnInit {
     if (cartItems) {
       //remove items
       let productList: any = JSON.parse(cartItems);
-      const data = productList.items.filter((item: any) => item._id !== cart._id);
+      const data = productList.items.filter(
+        (item: any) => item._id !== cart._id
+      );
       let prepartCartObj = {
         items: data
       };
@@ -134,23 +141,99 @@ export class CartComponent implements OnInit {
     this.stepper.next();
   }
 
-  //Address
+  //Address sections start here
   addAddress() {
-    if (this.addressForm.valid) {
-      console.log(this.addressForm.value);
-      const addressObj = {
-        addressLine1: this.addressForm.value.addressLine1,
-        addressLine2: this.addressForm.value.addressLine2,
-        city: this.addressForm.value.city,
-        state: this.addressForm.value.state,
-        country: this.addressForm.value.country,
-        pincode: this.addressForm.value.pincode
-      };
-      this.addressList.push(addressObj);
-      this.snackBar.open("Address added successfully!", "Close", {
-        duration: SNACK_BAR_DURATION
-      });
-      this.addressForm.reset();
+    if (this.event === "add_address") {
+      if (this.addressForm.valid) {
+        const addressObj = {
+          id: this.addressId++,
+          addressLine1: this.addressForm.value.addressLine1,
+          addressLine2: this.addressForm.value.addressLine2,
+          city: this.addressForm.value.city,
+          state: this.addressForm.value.state,
+          country: this.addressForm.value.country,
+          pincode: this.addressForm.value.pincode,
+          landmark: this.addressForm.value.landmark
+        };
+        this.addressList.push(addressObj);
+        this.snackBar.open("Address added successfully!", "Close", {
+          duration: SNACK_BAR_DURATION
+        });
+        this.addressForm.reset();
+        this.showAddressFields = false;
+      }
+    } else if (this.event === "edit_address") {
+      if (this.addressForm.valid) {
+        //** Remove these lines in Real time API
+        let addressList = this.addressList;
+        const newAddressList = addressList.filter(
+          (item: any) => item.id !== this.addressForm.value.id
+        );
+        this.addressList = newAddressList;
+        //Remove these lines in Real time API **
+
+        const addressObj = {
+          id: this.addressForm.value.id,
+          addressLine1: this.addressForm.value.addressLine1,
+          addressLine2: this.addressForm.value.addressLine2,
+          city: this.addressForm.value.city,
+          state: this.addressForm.value.state,
+          country: this.addressForm.value.country,
+          pincode: this.addressForm.value.pincode,
+          landmark: this.addressForm.value.landmark
+        };
+
+        //Instead of push call get address list from API
+        this.addressList.push(addressObj);
+
+        this.snackBar.open("Address Edit successfully!", "Close", {
+          duration: SNACK_BAR_DURATION
+        });
+        this.addressForm.reset();
+        this.showAddressFields = false;
+      }
     }
   }
+
+  closeAddress() {
+    this.showAddressFields = false;
+    this.addressForm.reset();
+  }
+
+  clearAddress() {
+    this.addressForm.reset();
+  }
+
+  editAddress(address: any) {
+    this.addressForm.patchValue({
+      id: address.id,
+      addressLine1: address.addressLine1,
+      addressLine2: address.addressLine2,
+      city: address.city,
+      state: address.state,
+      country: address.country,
+      pincode: address.pincode,
+      landmark: address.landmark
+    });
+    this.showAddressFields = true;
+    this.event = 'edit_address';
+  }
+
+  deleteAddress(address: any) {
+    if (address) {
+      let addressList = this.addressList;
+      const newAddressList = addressList.filter(
+        (item: any) => item.id !== address.id
+      );
+      this.addressList = newAddressList;
+      this.snackBar.open("Address deleted successfully!", "Close", {
+        duration: SNACK_BAR_DURATION
+      });
+    }
+  }
+
+  onSelectAddress(address:any) {
+    this.selectedAddress = address;
+  }
+  //Address sections end here
 }

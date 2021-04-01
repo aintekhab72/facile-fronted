@@ -120,6 +120,9 @@ body {
   }
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
 //label
 
 .label-text {
@@ -136,6 +139,11 @@ body {
 }
 
 /*SNACK BAR - START HERE*/
+.snack-success-message {
+  background-color: #166d1d;
+  color: #fff;
+}
+
 .snack-error-message {
   background-color: #fa6469;
   color: #fff;
@@ -148,3 +156,34 @@ body {
 }
 
 /*SNACKBAR - END HERE*/
+
+/* Buttons - START HERE*/
+
+.delete-btn {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+/* Buttons - End HERE*/
+
+/* mat step label - START HERE */
+
+.mat-step-label {
+  @media screen and (max-width: 767px) {
+    font-size: 10px;
+  }
+}
+
+/* mat step label - END HERE */
+
+
+/*Custom error start here */
+
+.error-section {
+  color: #f44336;
+  font-size: 12px;
+  margin-left: 1em;
+  margin-top: -16px;
+}
+
+/*Custom error end here*/

@@ -2,7 +2,7 @@
   <mat-step completed="false">
     <ng-template matStepLabel>CART</ng-template>
     <div style="padding: 15px">
-      <div *ngIf="cartItems.length > 0" class="row mt-3">
+      <div *ngIf="cartItems && cartItems.length > 0" class="row mt-3">
         <div class="col-md-9 disp-flex items-total">
           <span>Items ({{ cartItems.length }})</span>
           <span>Total Payable: ₹ {{ totalPayable }}</span>
@@ -56,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-3" *ngIf="cartItems.length > 0">
+        <div class="col-md-3" *ngIf="cartItems && cartItems.length > 0">
           <div class="mt-5">BILLING DETAILS</div>
           <div class="disp-flex billing-cart-box">
             <label>Cart Total</label>
@@ -74,7 +74,7 @@
             <label>Total Payable</label>
             <span>₹ {{ totalPayable }}</span>
           </div>
-          <button mat-raised-button class="place-order-btn">
+          <button mat-raised-button class="place-order-btn" (click)="goToNextStep()">
             PLACE ORDER
           </button>
         </div>
@@ -97,13 +97,29 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>ADDRESS</ng-template>
+    <div class="add-address-btn mt-2">
+      <button
+        mat-raised-button
+        class="primary-color-btn"
+        (click)="showAddressFields = true"
+      >
+        ADD ADDRESS
+      </button>
+    </div>
     <div *ngIf="addressList && addressList.length > 0" class="mt-4">
       <label class="ml-3 label-text">Select Address</label>
       <div class="row">
         <div
-          class="col-md-5 address-box ml-4 mt-4"
+          class="col-md-5 address-box ml-4 mt-4 cursor-pointer"
           *ngFor="let address of addressList"
+          (click)="onSelectAddress(address)"
         >
+          <img
+            class="selected-address"
+            *ngIf="selectedAddress && address.id === selectedAddress.id"
+            src="./assets/svg/checked.svg"
+            alt="Checked"
+          />
           <span>{{ address.addressLine1 }} </span>
           <span>{{ address.addressLine2 }}</span>
           <br />
@@ -111,18 +127,28 @@
           <span>{{ address.state }}, </span>
           <span>{{ address.country }} </span>
           <br />
+          <span>{{ address.landmark }} </span>
           <span>{{ address.pincode }}</span>
+          <div style="display: flex; justify-content: flex-end;">
+            <button
+              mat-raised-button
+              class="action-btns"
+              (click)="editAddress(address)"
+            >
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button
+              mat-raised-button
+              class="action-btns delete-btn ml-2"
+              (click)="deleteAddress(address)"
+            >
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <button
-        mat-raised-button
-        class="mt-5 primary-color-btn"
-        (click)="showAddressFields = true"
-      >
-        ADD ADDRESS
-      </button>
     </div>
     <div class="address-cart mt-4" *ngIf="showAddressFields">
       <form [formGroup]="addressForm">
@@ -151,7 +177,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>City </mat-label>
@@ -159,7 +185,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>State </mat-label>
@@ -167,7 +193,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Country </mat-label>
@@ -179,7 +205,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Pin Code </mat-label>
@@ -187,15 +213,39 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="example-button-row mt-10">
-            <button
-              mat-raised-button
-              class="primary-color-btn"
-              (click)="addAddress()"
-            >
-              Continue
-            </button>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Landmark </mat-label>
+                <input matInput placeholder="pin" formControlName="landmark" />
+              </mat-form-field>
+            </div>
           </div>
+        </div>
+        <div class="row">
+          <button
+            mat-raised-button
+            class="primary-color-btn ml-3 mt-2 action-btns"
+            (click)="addAddress()"
+          >
+            Save
+          </button>
+
+          <button
+            mat-stroked-button
+            class="ml-3 mt-2 action-btns"
+            (click)="closeAddress()"
+          >
+            Close
+          </button>
+
+          <button
+            mat-stroked-button
+            class="ml-3 mt-2 action-btns"
+            (click)="clearAddress()"
+          >
+            Clear
+          </button>
         </div>
       </form>
     </div>

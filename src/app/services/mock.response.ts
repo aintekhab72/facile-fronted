@@ -326,19 +326,23 @@ export const CART = {
 
 export const ADDRESS = [
   {
+    id: 1,
     addressLine1: "#445 Tony Mahal",
     addressLine2: "Rajaji Nagar 5th cross Hebbal",
     city: "Bangalore",
     state: "Karnataka",
     country: "India",
-    pincode: "581222"
+    pincode: "581222",
+    landmark: 'Tony mahal'
   },
   {
+    id: 2,
     addressLine1: "#445 Tony urf rajastan ",
     addressLine2: "vijayanagar Nagar 5th cross Hebbal",
     city: "Bangalore",
     state: "Karnataka",
     country: "India",
-    pincode: "581222"
+    pincode: "581222",
+    landmark: 'Tony mahal'
   },
 ];

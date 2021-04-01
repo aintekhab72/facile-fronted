@@ -9,6 +9,7 @@ import { AuthenticationService } from "src/app/services/authentication.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "src/app/utils/constants.utils";
 import { Router } from "@angular/router";
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: "app-login",
@@ -18,6 +19,7 @@ import { Router } from "@angular/router";
 export class LoginComponent implements OnInit {
   public loginForm!: FormGroup;
   public hide = true;
+  public userId:any;
 
   constructor(
     private fb: FormBuilder,
@@ -44,7 +46,9 @@ export class LoginComponent implements OnInit {
           if (data && data.data) {
             let token = data.data.token;
             localStorage.setItem("accesstoken", token);
-            this.router.navigate(["/"]);
+            // this.router.navigate(["/"]);
+            this.userId = data.data.userId;
+            this.getUserInfo();
           }
         },
         (error: any) => {
@@ -56,5 +60,24 @@ export class LoginComponent implements OnInit {
         }
       );
     }
+  }
+
+  getUserInfo() {
+    let params = new HttpParams().set('user_id', this.userId);
+    this.authService.userInfo(params).subscribe(
+      (data: any) => {
+        if (data && data.data) {
+          localStorage.setItem("userInfo", JSON.stringify(data.data));
+          this.router.navigate(["/"]);
+        }
+      },
+      (error: any) => {
+        let errorMessage = error.message || "Unable to get user information";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
+      }
+    );
   }
 }
