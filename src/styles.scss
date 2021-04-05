@@ -104,14 +104,14 @@ body {
   color: #fff;
   width: 100%;
   outline: none;
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     display: none;
   }
 }
 
 .place-order-footer {
   display: none;
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     display: block;
     position: fixed;
     left: 0;
@@ -169,13 +169,12 @@ body {
 /* mat step label - START HERE */
 
 .mat-step-label {
-  @media screen and (max-width: 767px) {
+  @media screen and (max-width: 768px) {
     font-size: 10px;
   }
 }
 
 /* mat step label - END HERE */
-
 
 /*Custom error start here */
 
@@ -186,4 +185,26 @@ body {
   margin-top: -16px;
 }
 
+.alert-danger {
+  background-color: #f2dede;
+  border-color: #ebcccc;
+  color: #a94442;
+}
+
+.alert {
+  padding: 0.75rem 1.25rem;
+  // margin-bottom: 1rem;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+}
+
 /*Custom error end here*/
+
+.mat-horizontal-stepper-header-container {
+  width: 50%;
+  margin-left: 25%;
+  @media screen and (max-width: 768px) {
+    width: 100%;
+    margin-left: 0;
+  }
+}

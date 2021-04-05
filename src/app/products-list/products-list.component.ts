@@ -1,5 +1,5 @@
 import { Component, OnInit, HostListener } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 import { HttpParams } from "@angular/common/http";
@@ -19,7 +19,8 @@ export class ProductsListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -79,6 +80,12 @@ export class ProductsListComponent implements OnInit {
         });
       }
     );
+  }
+
+  productDetails(prod: any) {
+    this.router.navigate(["/product-details"], {
+      queryParams: { productId: prod._id }
+    });
   }
 
   addTOCart(prod: any, size: any, quantity: any) {

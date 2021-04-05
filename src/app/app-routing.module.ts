@@ -8,6 +8,7 @@ const routes: Routes = [
   { path: 'auth', loadChildren: () => import('./authentication/authentication.module').then(m => m.AuthenticationModule) },
   { path: 'cart', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule) },
   { path: 'products', component: ProductsListComponent},
+  { path: 'product-details', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
 ];
 
 @NgModule({
