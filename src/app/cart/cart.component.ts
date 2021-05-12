@@ -13,6 +13,9 @@ import {
   SHIPPING_CHARGES
 } from "../utils/constants.utils";
 import { MatStepper } from "@angular/material/stepper";
+import { HttpParams } from "@angular/common/http";
+import { ShippingAddressService } from "../services/shipping-address.service";
+import { CartService } from "../services/cart.service";
 
 @Component({
   selector: "app-cart",
@@ -21,7 +24,7 @@ import { MatStepper } from "@angular/material/stepper";
 })
 export class CartComponent implements OnInit {
   @ViewChild("stepper") stepper: MatStepper;
-  public cartItems: any;
+  public cartItems: any[] = [];
   public firstFormGroup!: FormGroup;
   public secondFormGroup!: FormGroup;
   public isEditable = false;
@@ -44,23 +47,43 @@ export class CartComponent implements OnInit {
 
   //Address
   public addressForm!: FormGroup;
-  public addressList = ADDRESS;
+  public addressList: any[] = [];
   public showAddressFields: boolean = false;
   public addressId = 3;
   public event = "add_address";
-  public selectedAddress:any;
+  public selectedAddress: any;
+  public shippingAddressId: any;
+  public cartId: any;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private shippingAddress: ShippingAddressService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
     //Read cart items from local storage
-    let carts: any = localStorage.getItem("cartItems");
-    let productList: any = JSON.parse(carts);
-    if (productList) {
-      this.cartItems = productList.items;
-      this.calculateTotalPayable(this.cartItems);
-    } else {
-      this.cartItems = [];
+    // let carts: any = localStorage.getItem("cartItems");
+    // let productList: any = JSON.parse(carts);
+    // if (productList) {
+    //   this.cartItems = productList.items;
+    //   this.calculateTotalPayable(this.cartItems);
+    // } else {
+    //   this.cartItems = [];
+    // }
+
+    let userInfo: any = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    if (userInfo) {
+      this.shippingAddressId = userInfo.shipping_address_id;
+      if (this.shippingAddressId) {
+        this.getShippingAddress(this.shippingAddressId);
+      }
+      this.cartId = userInfo.cart_id;
+      if (this.cartId) {
+        this.getCarts(this.cartId);
+      }
     }
 
     this.addressForm = this.fb.group({
@@ -71,66 +94,134 @@ export class CartComponent implements OnInit {
       state: new FormControl("", [Validators.required]),
       country: new FormControl("", [Validators.required]),
       pincode: new FormControl("", [Validators.required]),
-      landmark: new FormControl("", [Validators.required])
+      landmark: new FormControl("", [Validators.required]),
+      elementId: new FormControl("")
     });
   }
 
-  removeItems(cart: any) {
-    let cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      //remove items
-      let productList: any = JSON.parse(cartItems);
-      const data = productList.items.filter(
-        (item: any) => item._id !== cart._id
-      );
-      let prepartCartObj = {
-        items: data
-      };
-      localStorage.setItem("cartItems", JSON.stringify(prepartCartObj));
-
-      //Get items
-      let carts: any = localStorage.getItem("cartItems");
-      let updatedList: any = JSON.parse(carts);
-      if (updatedList) {
-        this.cartItems = updatedList.items;
-      } else {
-        this.cartItems = [];
+  getCarts(cartId: any) {
+    this.cartService.getCarts(cartId).subscribe(
+      (data: any) => {
+        if (data && data.data && data.data.cart_items) {
+          this.cartItems = data.data.cart_items;
+          this.calculateTotalPayable(this.cartItems);
+        }
+      },
+      (error: any) => {
+        let errorMessage = error.message || "No Address found";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
       }
-      this.snackBar.open(
-        "Product removed from your cart successfully!",
-        "Close",
-        {
-          duration: 2000,
-          horizontalPosition: "end",
-          verticalPosition: "top"
+    );
+  }
+
+  deleteCart(cart: any) {
+    if (cart) {
+      this.cartService.deleteCart(this.cartId, cart.element_id).subscribe(
+        (data: any) => {
+          if (data) {
+            this.snackBar.open("Cart deleted successfully!", "Close", {
+              duration: SNACK_BAR_DURATION
+            });
+            this.getCarts(this.cartId);
+          }
+        },
+        (error: any) => {
+          let errorMessage =
+            error.message || "Unable to delete cart, please try again";
+          this.snackBar.open(errorMessage, "Close", {
+            panelClass: "snack-error-message",
+            duration: SNACK_BAR_DURATION
+          });
         }
       );
-      this.calculateTotalPayable(this.cartItems);
     }
   }
 
-  selectOption(event: any, prod: any) {
-    let cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      let productList: any = JSON.parse(cartItems);
-      for (const product of productList.items) {
-        if (product._id === prod._id) {
-          product.quantity = event.target.value;
+  //Dont remove
+  // removeItems(cart: any) {
+  //   let cartItems = localStorage.getItem("cartItems");
+  //   if (cartItems) {
+  //     //remove items
+  //     let productList: any = JSON.parse(cartItems);
+  //     const data = productList.items.filter(
+  //       (item: any) => item._id !== cart._id
+  //     );
+  //     let prepartCartObj = {
+  //       items: data
+  //     };
+  //     localStorage.setItem("cartItems", JSON.stringify(prepartCartObj));
+
+  //     //Get items
+  //     let carts: any = localStorage.getItem("cartItems");
+  //     let updatedList: any = JSON.parse(carts);
+  //     if (updatedList) {
+  //       this.cartItems = updatedList.items;
+  //     } else {
+  //       this.cartItems = [];
+  //     }
+  //     this.snackBar.open(
+  //       "Product removed from your cart successfully!",
+  //       "Close",
+  //       {
+  //         duration: 2000,
+  //         horizontalPosition: "end",
+  //         verticalPosition: "top"
+  //       }
+  //     );
+  //     this.calculateTotalPayable(this.cartItems);
+  //   }
+  // }
+
+  selectOption(event: any, cartItem: any) {
+    let cartObj = {
+      cart_id: this.cartId,
+      element_id: cartItem.element_id,
+      variant_id: cartItem.variant_id,
+      quantity: event.target.value
+    };
+    this.cartService.updateCart(cartObj).subscribe(
+      (data: any) => {
+        if (data) {
+          this.snackBar.open("Cart updated successfully!", "Close", {
+            duration: SNACK_BAR_DURATION
+          });
+          this.getCarts(this.cartId);
         }
+      },
+      (error: any) => {
+        let errorMessage =
+          error.message || "Unable to update Cart, please try again";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
       }
-      this.cartItems = productList.items;
-      localStorage.setItem("cartItems", JSON.stringify(productList));
-      this.snackBar.open("Cart updated successfully!", "Close", {
-        duration: SNACK_BAR_DURATION
-      });
-      this.calculateTotalPayable(this.cartItems);
-    }
+    );
+    // Dont remove it is usefull for localstorage
+    // let cartItems = localStorage.getItem("cartItems");
+    // if (cartItems) {
+    //   let productList: any = JSON.parse(cartItems);
+    //   for (const product of productList.items) {
+    //     if (product._id === prod._id) {
+    //       product.quantity = event.target.value;
+    //     }
+    //   }
+    //   this.cartItems = productList.items;
+    //   localStorage.setItem("cartItems", JSON.stringify(productList));
+    //   this.snackBar.open("Cart updated successfully!", "Close", {
+    //     duration: SNACK_BAR_DURATION
+    //   });
+    //   this.calculateTotalPayable(this.cartItems);
+    // }
   }
 
   calculateTotalPayable(cartItems: any) {
     let cartTotal = 0;
     cartItems.forEach((element: any) => {
-      cartTotal += element.quantity * element.mrp;
+      cartTotal += element.quantity * element.product_details.mrp;
     });
     this.cartTotal = cartTotal;
     this.totalPayable = this.cartTotal + this.gst + this.shippingCharges;
@@ -146,36 +237,43 @@ export class CartComponent implements OnInit {
     if (this.event === "add_address") {
       if (this.addressForm.valid) {
         const addressObj = {
-          id: this.addressId++,
-          addressLine1: this.addressForm.value.addressLine1,
-          addressLine2: this.addressForm.value.addressLine2,
+          address_id: this.shippingAddressId,
+          address_1: this.addressForm.value.addressLine1,
+          address_2: this.addressForm.value.addressLine2,
           city: this.addressForm.value.city,
           state: this.addressForm.value.state,
           country: this.addressForm.value.country,
           pincode: this.addressForm.value.pincode,
           landmark: this.addressForm.value.landmark
         };
-        this.addressList.push(addressObj);
-        this.snackBar.open("Address added successfully!", "Close", {
-          duration: SNACK_BAR_DURATION
-        });
-        this.addressForm.reset();
-        this.showAddressFields = false;
+        this.shippingAddress.addAddress(addressObj).subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address added successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.addressForm.reset();
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to add address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
       }
     } else if (this.event === "edit_address") {
       if (this.addressForm.valid) {
-        //** Remove these lines in Real time API
-        let addressList = this.addressList;
-        const newAddressList = addressList.filter(
-          (item: any) => item.id !== this.addressForm.value.id
-        );
-        this.addressList = newAddressList;
-        //Remove these lines in Real time API **
-
         const addressObj = {
-          id: this.addressForm.value.id,
-          addressLine1: this.addressForm.value.addressLine1,
-          addressLine2: this.addressForm.value.addressLine2,
+          address_id: this.shippingAddressId,
+          element_id: this.addressForm.value.elementId,
+          address_1: this.addressForm.value.addressLine1,
+          address_2: this.addressForm.value.addressLine2,
           city: this.addressForm.value.city,
           state: this.addressForm.value.state,
           country: this.addressForm.value.country,
@@ -183,16 +281,34 @@ export class CartComponent implements OnInit {
           landmark: this.addressForm.value.landmark
         };
 
-        //Instead of push call get address list from API
-        this.addressList.push(addressObj);
-
-        this.snackBar.open("Address Edit successfully!", "Close", {
-          duration: SNACK_BAR_DURATION
-        });
-        this.addressForm.reset();
-        this.showAddressFields = false;
+        this.shippingAddress.updateAddress(addressObj).subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address updated successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.addressForm.reset();
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to update address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
       }
     }
+  }
+
+  addAddressShowDialogBox() {
+    this.showAddressFields = true;
+    this.event = "add_address";
+    this.addressForm.reset();
   }
 
   closeAddress() {
@@ -207,33 +323,73 @@ export class CartComponent implements OnInit {
   editAddress(address: any) {
     this.addressForm.patchValue({
       id: address.id,
-      addressLine1: address.addressLine1,
-      addressLine2: address.addressLine2,
+      addressLine1: address.address_1,
+      addressLine2: address.address_2,
       city: address.city,
       state: address.state,
       country: address.country,
       pincode: address.pincode,
-      landmark: address.landmark
+      landmark: address.landmark,
+      elementId: address.element_id
     });
     this.showAddressFields = true;
-    this.event = 'edit_address';
+    this.selectedAddress = null;
+    this.event = "edit_address";
   }
 
   deleteAddress(address: any) {
     if (address) {
-      let addressList = this.addressList;
-      const newAddressList = addressList.filter(
-        (item: any) => item.id !== address.id
-      );
-      this.addressList = newAddressList;
-      this.snackBar.open("Address deleted successfully!", "Close", {
-        duration: SNACK_BAR_DURATION
-      });
+      this.shippingAddress
+        .deleteAddress(this.shippingAddressId, address.element_id)
+        .subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address deleted successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.selectedAddress = null;
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to update address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
     }
   }
 
-  onSelectAddress(address:any) {
+  onSelectAddress(address: any) {
     this.selectedAddress = address;
+  }
+
+  getShippingAddress(addressId: any) {
+    this.shippingAddress.getAddress(addressId).subscribe(
+      (data: any) => {
+        if (data && data.data && data.data.addresses) {
+          this.addressList = data.data.addresses;
+        }
+      },
+      (error: any) => {
+        let errorMessage = error.message || "No Address found";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
+      }
+    );
+  }
+
+  continueToPayment() {
+    if (this.selectedAddress) {
+      this.stepper.selected.completed = true;
+      this.stepper.next();
+    }
   }
   //Address sections end here
 }

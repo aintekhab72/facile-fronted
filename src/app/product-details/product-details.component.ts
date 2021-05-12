@@ -5,6 +5,7 @@ import { ProductsService } from "../services/products.service";
 import { HttpParams } from "@angular/common/http";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import { CartService } from "../services/cart.service";
 
 @Component({
   selector: "app-product-details",
@@ -29,10 +30,12 @@ export class ProductDetailsComponent implements OnInit {
   public selectedVariant: any;
   public isVariantSelected: string = "not_selected";
   public productId: string;
+  public cartId: any;
   constructor(
     private route: ActivatedRoute,
     private productService: ProductsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +46,12 @@ export class ProductDetailsComponent implements OnInit {
     if (this.productId) {
       this.getProductDetails(this.productId);
     }
+
+    let userInfo: any = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    if (userInfo) {
+      this.cartId = userInfo.cart_id;
+    }
   }
 
   selectVariant(variant: any) {
@@ -51,8 +60,31 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart() {
-    if ((this.isVariantSelected = "not_selected")) {
+    if (this.isVariantSelected === "not_selected") {
       return;
+    } else {
+      let cartObject = {
+        cart_id: this.cartId,
+        variant_id: this.selectedVariant._id,
+        quantity: this.cartQuantity
+      };
+      this.cartService.addCart(cartObject).subscribe(
+        (data: any) => {
+          if (data && data.data) {
+            this.snackBar.open("Cart added successfully!", "Close", {
+              duration: SNACK_BAR_DURATION
+            });
+            this.selectedVariant = null;
+          }
+        },
+        (error: any) => {
+          let errorMessage = error.message || "No Cart found";
+          this.snackBar.open(errorMessage, "Close", {
+            panelClass: "snack-error-message",
+            duration: SNACK_BAR_DURATION
+          });
+        }
+      );
     }
   }
 
@@ -60,10 +92,9 @@ export class ProductDetailsComponent implements OnInit {
     const params = new HttpParams().set("productId", productId);
     this.productService.getProducts(params).subscribe(
       (data: any) => {
-        console.log("product details", data.data);
-        // if (data && data.data) {
-        //   this.productDetails = data.data;
-        // }
+        if (data && data.data) {
+          this.productDetails = data.data;
+        }
       },
       (error: any) => {
         let errorMessage = error.message || "Product not found";
