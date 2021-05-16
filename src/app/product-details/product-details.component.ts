@@ -6,6 +6,7 @@ import { HttpParams } from "@angular/common/http";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CartService } from "../services/cart.service";
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: "app-product-details",
@@ -31,11 +32,13 @@ export class ProductDetailsComponent implements OnInit {
   public isVariantSelected: string = "not_selected";
   public productId: string;
   public cartId: any;
+  public showError: boolean = false;
   constructor(
     private route: ActivatedRoute,
     private productService: ProductsService,
     private snackBar: MatSnackBar,
-    private cartService: CartService
+    private cartService: CartService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -60,7 +63,9 @@ export class ProductDetailsComponent implements OnInit {
   }
 
   addToCart() {
+    this.showError = false;
     if (this.isVariantSelected === "not_selected") {
+      this.showError = true;
       return;
     } else {
       let cartObject = {
@@ -75,6 +80,8 @@ export class ProductDetailsComponent implements OnInit {
               duration: SNACK_BAR_DURATION
             });
             this.selectedVariant = null;
+            this.isVariantSelected = "not_selected";
+            this.headerService.setCount.next('call');
           }
         },
         (error: any) => {

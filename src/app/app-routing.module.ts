@@ -12,7 +12,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, {scrollOffset: [0, 200] })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

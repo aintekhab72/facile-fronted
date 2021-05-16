@@ -3,17 +3,16 @@
     <img
       src="{{ image }}"
       alt="product"
-      class="ml-2 mt-2"
-      style="width: 22em;"
+      class="ml-2 mt-2 product-image"
       *ngFor="let image of productDetails?.images"
     />
   </div>
   <div class="col-md-1"></div>
-  <div class="col-md-5">
-    <div style="font-size:1.8em; font-weight: 700;">
+  <div class="col-md-5 mt-3">
+    <div class="prod-name">
       {{ productDetails.name }}
     </div>
-    <div class="mt-2" style="color: #a7a9ac; font-size:15px;">
+    <div class="mt-2" class="prod-category">
       {{ productDetails.category }}
     </div>
     <span class="horizontal-line mt-4"></span>
@@ -37,8 +36,7 @@
     </div>
     <div
       *ngIf="
-        !selectedVariant ||
-        (selectedVariant?.size === '' && isVariantSelected === 'not_selected')
+        !selectedVariant && showError && isVariantSelected === 'not_selected'
       "
       class="alert alert-danger mt-4"
     >

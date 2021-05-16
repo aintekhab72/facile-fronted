@@ -39,3 +39,21 @@
   font-size: 15px;
   font-weight: 500;
 }
+
+.product-image {
+  width: 17rem;
+  @media screen and (max-width: 768px) {
+  width: 12rem;
+  }
+}
+
+.prod-name {
+  font-size:1.8em; 
+  font-weight: 500; 
+  line-height: 30px;
+}
+
+.prod-category {
+  color: #a7a9ac; 
+  font-size:15px;
+}

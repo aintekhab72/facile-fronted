@@ -16,6 +16,7 @@ import { MatStepper } from "@angular/material/stepper";
 import { HttpParams } from "@angular/common/http";
 import { ShippingAddressService } from "../services/shipping-address.service";
 import { CartService } from "../services/cart.service";
+import { HeaderService } from '../services/header.service';
 
 @Component({
   selector: "app-cart",
@@ -59,7 +60,8 @@ export class CartComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private shippingAddress: ShippingAddressService,
-    private cartService: CartService
+    private cartService: CartService,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit() {
@@ -105,6 +107,7 @@ export class CartComponent implements OnInit {
         if (data && data.data && data.data.cart_items) {
           this.cartItems = data.data.cart_items;
           this.calculateTotalPayable(this.cartItems);
+          this.headerService.setCount.next('call');
         }
       },
       (error: any) => {

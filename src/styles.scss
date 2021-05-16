@@ -17,7 +17,7 @@ body {
 }
 
 .mat-tab-label-active {
-  background: #3f51b5;
+  background: #fd0000;
   color: #fff !important;
 }
 
@@ -68,9 +68,11 @@ body {
 
 /* Header part - start here */
 .header-section {
-  height: 80px;
-  background: #c29200;
+  height: 55px;
+  // background: #c29200;
   // background: #079aff;
+  // background: #87b9ef;
+  background: #241977;
   display: flex;
   // justify-content: space-between;
   align-items: center;
@@ -78,11 +80,11 @@ body {
 }
 
 .sticky {
-  background: #c29200;
+  background: #241977;
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.08);
   position: fixed;
   top: 0;
-  height: 13vh;
+  height: 55px;
   width: 100%;
   z-index: 10;
 }
@@ -161,7 +163,12 @@ body {
 /* Buttons - START HERE*/
 
 .delete-btn {
-  background-color: #ff0000;
+  background-color: #d05757;
+  color: #fff;
+}
+
+.edit-btn {
+  background-color: #7880e8;
   color: #fff;
 }
 
@@ -208,4 +215,9 @@ body {
     width: 100%;
     margin-left: 0;
   }
+}
+
+.mat-step-header .mat-step-icon-selected, .mat-step-header .mat-step-icon-state-edit {
+  background-color: #f44336;
+  color: #fff;
 }

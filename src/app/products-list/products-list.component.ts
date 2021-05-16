@@ -4,6 +4,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 import { HttpParams } from "@angular/common/http";
 import { ProductsService } from "../services/products.service";
+import { HeaderService } from "../services/header.service";
 
 @Component({
   selector: "app-products-list",
@@ -20,7 +21,8 @@ export class ProductsListComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private productService: ProductsService,
-    private router: Router
+    private router: Router,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -50,6 +52,14 @@ export class ProductsListComponent implements OnInit {
     if (this.categoryId) {
       this.getProductList(this.categoryId);
     }
+
+    this.headerService.setCategory.subscribe((value: any) => {
+      if (value === "productList") {
+        console.log('categoryId', this.categoryId);
+        
+        this.getProductList(this.categoryId);
+      }
+    });
   }
 
   @HostListener("window:scroll", ["$event"])
