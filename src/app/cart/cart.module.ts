@@ -5,6 +5,7 @@ import { ReactiveFormsModule, FormsModule } from "@angular/forms";
 import { SharedModule } from "../shared/shared.module";
 import { CartRoutingModule } from "./cart-routing.module";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [CartComponent],
@@ -14,7 +15,8 @@ import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
     CartRoutingModule,
     FormsModule,
     NgbModule,
-    SharedModule
+    SharedModule,
+    TranslateModule
   ],
   exports: [CartRoutingModule]
 })

@@ -132,6 +132,16 @@
             src="./assets/svg/checked.svg"
             alt="Checked"
           />
+          <img
+            class="selected-address"
+            *ngIf="
+              selectedAddress &&
+              address &&
+              address?.element_id !== selectedAddress.element_id
+            "
+            src="./assets/svg/unchecked.svg"
+            alt="Checked"
+          />
           <span>{{ address?.address_1 }} </span>
           <span>{{ address?.address_2 }}</span>
           <br />
@@ -181,6 +191,9 @@
                   placeholder="Address Line1"
                   formControlName="addressLine1"
                 />
+                <mat-error *ngIf="addressForm.addressLine1?.errors?.required">
+                  {{ "general.validation_required_field" | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -201,6 +214,9 @@
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>City </mat-label>
                 <input matInput placeholder="City" formControlName="city" />
+                <mat-error *ngIf="addressForm.city?.errors?.required">
+                  {{ "general.validation_required_field" | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -208,7 +224,10 @@
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>State </mat-label>
-                <input matInput placeholder="state" formControlName="state" />
+                <input matInput placeholder="State" formControlName="state" />
+                <mat-error *ngIf="addressForm.state?.errors?.required">
+                  {{ "general.validation_required_field" | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -218,9 +237,12 @@
                 <mat-label>Country </mat-label>
                 <input
                   matInput
-                  placeholder="country"
+                  placeholder="Country"
                   formControlName="country"
                 />
+                <mat-error *ngIf="addressForm.country?.errors?.required">
+                  {{ "general.validation_required_field" | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -228,7 +250,10 @@
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Pin Code </mat-label>
-                <input matInput placeholder="pin" formControlName="pincode" />
+                <input matInput placeholder="Pin Code" formControlName="pincode" />
+                <mat-error *ngIf="addressForm.pincode?.errors?.required">
+                  {{ "general.validation_required_field" | translate }}
+                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -236,7 +261,7 @@
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Landmark </mat-label>
-                <input matInput placeholder="pin" formControlName="landmark" />
+                <input matInput placeholder="Landmark" formControlName="landmark" />
               </mat-form-field>
             </div>
           </div>

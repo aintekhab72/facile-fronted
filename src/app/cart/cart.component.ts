@@ -9,7 +9,7 @@ import { CART, ADDRESS } from "../services/mock.response";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   SNACK_BAR_DURATION,
-  GST,
+  GST_PER,
   SHIPPING_CHARGES
 } from "../utils/constants.utils";
 import { MatStepper } from "@angular/material/stepper";
@@ -30,7 +30,7 @@ export class CartComponent implements OnInit {
   public secondFormGroup!: FormGroup;
   public isEditable = false;
   public cartTotal = 0;
-  public gst = GST;
+  public gst = 0;
   public shippingCharges = SHIPPING_CHARGES;
   public totalPayable = 0;
   public quatityOptions: string[] = [
@@ -50,7 +50,6 @@ export class CartComponent implements OnInit {
   public addressForm!: FormGroup;
   public addressList: any[] = [];
   public showAddressFields: boolean = false;
-  public addressId = 3;
   public event = "add_address";
   public selectedAddress: any;
   public shippingAddressId: any;
@@ -91,12 +90,12 @@ export class CartComponent implements OnInit {
     this.addressForm = this.fb.group({
       id: 0,
       addressLine1: new FormControl("", [Validators.required]),
-      addressLine2: new FormControl("", [Validators.required]),
+      addressLine2: new FormControl(""),
       city: new FormControl("", [Validators.required]),
       state: new FormControl("", [Validators.required]),
       country: new FormControl("", [Validators.required]),
       pincode: new FormControl("", [Validators.required]),
-      landmark: new FormControl("", [Validators.required]),
+      landmark: new FormControl(""),
       elementId: new FormControl("")
     });
   }
@@ -227,7 +226,9 @@ export class CartComponent implements OnInit {
       cartTotal += element.quantity * element.product_details.mrp;
     });
     this.cartTotal = cartTotal;
+    this.gst = (this.cartTotal * GST_PER) / 100;
     this.totalPayable = this.cartTotal + this.gst + this.shippingCharges;
+    this.totalPayable = Math.ceil(this.totalPayable);
   }
 
   goToNextStep() {
@@ -376,6 +377,8 @@ export class CartComponent implements OnInit {
       (data: any) => {
         if (data && data.data && data.data.addresses) {
           this.addressList = data.data.addresses;
+          if(this.addressList && this.addressList.length > 0)
+            this.selectedAddress = this.addressList[0];
         }
       },
       (error: any) => {
