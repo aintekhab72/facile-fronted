@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsListComponent } from './products-list/products-list.component';
+import { HandleComponent } from './handle/handle.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -9,6 +10,7 @@ const routes: Routes = [
   { path: 'cart', loadChildren: () => import('./cart/cart.module').then(m => m.CartModule) },
   { path: 'products', component: ProductsListComponent},
   { path: 'product-details', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
+  { path: "handle/:id", component: HandleComponent},
 ];
 
 @NgModule({

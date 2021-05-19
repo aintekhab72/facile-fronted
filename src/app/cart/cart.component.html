@@ -1,4 +1,4 @@
-<mat-horizontal-stepper linear #stepper>
+<mat-horizontal-stepper linear #stepper class="mt-5">
   <mat-step completed="false">
     <ng-template matStepLabel>CART</ng-template>
     <div style="padding: 15px">
@@ -191,9 +191,6 @@
                   placeholder="Address Line1"
                   formControlName="addressLine1"
                 />
-                <mat-error *ngIf="addressForm.addressLine1?.errors?.required">
-                  {{ "general.validation_required_field" | translate }}
-                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -214,9 +211,6 @@
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>City </mat-label>
                 <input matInput placeholder="City" formControlName="city" />
-                <mat-error *ngIf="addressForm.city?.errors?.required">
-                  {{ "general.validation_required_field" | translate }}
-                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -225,9 +219,6 @@
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>State </mat-label>
                 <input matInput placeholder="State" formControlName="state" />
-                <mat-error *ngIf="addressForm.state?.errors?.required">
-                  {{ "general.validation_required_field" | translate }}
-                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -240,9 +231,6 @@
                   placeholder="Country"
                   formControlName="country"
                 />
-                <mat-error *ngIf="addressForm.country?.errors?.required">
-                  {{ "general.validation_required_field" | translate }}
-                </mat-error>
               </mat-form-field>
             </div>
           </div>
@@ -251,9 +239,6 @@
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Pin Code </mat-label>
                 <input matInput placeholder="Pin Code" formControlName="pincode" />
-                <mat-error *ngIf="addressForm.pincode?.errors?.required">
-                  {{ "general.validation_required_field" | translate }}
-                </mat-error>
               </mat-form-field>
             </div>
           </div>

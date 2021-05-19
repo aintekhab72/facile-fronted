@@ -10,8 +10,10 @@ import { CartService } from "src/app/services/cart.service";
   styleUrls: ["./header.component.scss"]
 })
 export class HeaderComponent implements OnInit {
-  cartItems: number = 0;
-  category: any;
+  public cartItems: number = 0;
+  public category: any;
+  public currentUser:any;
+  public userName: string;
 
   constructor(
     private categoryService: CategoryService,
@@ -25,11 +27,15 @@ export class HeaderComponent implements OnInit {
     this.getCartList();
     let userInfo: any = localStorage.getItem("userInfo");
     userInfo = JSON.parse(userInfo);
+    this.currentUser = userInfo;
     if (userInfo) {
+      this.headerService.isLoggedIn.subscribe((data: any) => {
+        if (data === true) this.isLoggedIn();
+      });
+      this.userName = userInfo.name.split(" ")[0]
       this.headerService.setCount.next("init");
       const cartId = userInfo.cart_id;
       this.headerService.setCount.subscribe((count: any) => {
-        // this.cartItems = count;
         if (count === "call" || count === "init") this.getCarts(cartId);
       });
     }
@@ -73,8 +79,6 @@ export class HeaderComponent implements OnInit {
   }
 
   getCarts(cartId: any) {
-    console.log("called");
-
     this.cartService.getCarts(cartId).subscribe(
       (data: any) => {
         if (data && data.data && data.data.cart_items) {
@@ -83,5 +87,22 @@ export class HeaderComponent implements OnInit {
       },
       (error: any) => {}
     );
+  }
+
+  isLoggedIn() {
+    if (this.currentUser == null) {
+      return false;
+    }
+    return true;
+  }
+
+  logout() {
+    this.headerService.isLoggedIn.next(false);
+    localStorage.removeItem('userInfo');
+    localStorage.removeItem('accesstoken');
+    this.router.navigate(["/"]);
+    setTimeout(() => {
+      window.location.reload();
+    }, 10)
   }
 }

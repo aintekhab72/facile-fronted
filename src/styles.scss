@@ -221,3 +221,15 @@ body {
   background-color: #f44336;
   color: #fff;
 }
+
+.mat-progress-spinner {
+  display: inline-block !important;
+}
+
+.mat-progress-spinner svg {
+  width: 75% !important;
+}
+
+.mat-progress-spinner circle, .mat-spinner circle {
+  stroke: #241977;
+}

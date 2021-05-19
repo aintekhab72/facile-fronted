@@ -1,5 +1,9 @@
 <section>
-  <div class="header-section animated fadeInDown" id="navbar" style="z-index: 20;">
+  <div
+    class="header-section animated fadeInDown"
+    id="navbar"
+    style="z-index: 20;"
+  >
     <div class="header-links">
       <ul class="navbar-nav">
         <li class="shop nav-item dropdown">
@@ -27,7 +31,7 @@
       />
     </div>
     <div class="auth">
-      <a class="header-right-item" routerLink="/auth">
+      <a class="header-right-item" routerLink="/auth" *ngIf="!isLoggedIn()">
         <mat-icon>account_circle</mat-icon>
       </a>
       <a class="header-right-item" routerLink="/cart">
@@ -35,6 +39,18 @@
           shopping_cart
         </mat-icon>
       </a>
+      <a
+        class="header-right-item"
+        [matMenuTriggerFor]="menu"
+        *ngIf="isLoggedIn()"
+        style="color: #fff; cursor: pointer"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <mat-menu #menu="matMenu">
+        <span mat-menu-item class="dropdown">{{userName}}</span>
+        <span mat-menu-item class="dropdown" (click)="logout()">Logout</span>
+      </mat-menu>
     </div>
   </div>
 </section>

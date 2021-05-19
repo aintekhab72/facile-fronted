@@ -226,9 +226,11 @@ export class CartComponent implements OnInit {
       cartTotal += element.quantity * element.product_details.mrp;
     });
     this.cartTotal = cartTotal;
-    this.gst = (this.cartTotal * GST_PER) / 100;
-    this.totalPayable = this.cartTotal + this.gst + this.shippingCharges;
-    this.totalPayable = Math.ceil(this.totalPayable);
+    let actualPrice = this.cartTotal * 100 / GST_PER;
+    this.gst = Math.round(this.cartTotal - actualPrice);
+    this.cartTotal = Math.round(actualPrice);
+    this.totalPayable = actualPrice + this.gst + this.shippingCharges;
+    this.totalPayable = Math.round(this.totalPayable);
   }
 
   goToNextStep() {

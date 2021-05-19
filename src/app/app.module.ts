@@ -17,6 +17,7 @@ import {
 } from "@ngx-translate/core";
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
+import { HandleComponent } from './handle/handle.component';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -32,7 +33,8 @@ export function setupTranslateFactory(service: TranslateService): Function {
     HomeComponent,
     LoaderComponent,
     ProductsListComponent,
-    HeaderComponent
+    HeaderComponent,
+    HandleComponent
   ],
   imports: [
     BrowserModule,

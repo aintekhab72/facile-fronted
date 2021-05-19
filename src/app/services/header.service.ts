@@ -7,6 +7,7 @@ import { Subject } from 'rxjs';
 export class HeaderService {
   setCount = new Subject<String>();
   setCategory = new Subject<String>();
+  isLoggedIn = new Subject<Boolean>();
 
   constructor() { }
 }

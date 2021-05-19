@@ -10,6 +10,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "src/app/utils/constants.utils";
 import { Router } from "@angular/router";
 import { HttpParams } from '@angular/common/http';
+import { HeaderService } from 'src/app/services/header.service';
 
 @Component({
   selector: "app-login",
@@ -25,7 +26,8 @@ export class LoginComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -68,7 +70,11 @@ export class LoginComponent implements OnInit {
       (data: any) => {
         if (data && data.data) {
           localStorage.setItem("userInfo", JSON.stringify(data.data));
+          this.headerService.isLoggedIn.next(true);
           this.router.navigate(["/"]);
+          setTimeout(() => {
+            window.location.reload();
+          }, 10)
         }
       },
       (error: any) => {
