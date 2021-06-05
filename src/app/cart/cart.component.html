@@ -139,7 +139,7 @@
               address &&
               address?.element_id !== selectedAddress.element_id
             "
-            src="./assets/svg/unchecked.svg"
+            src="./assets/svg/unchecked2.png"
             alt="Checked"
           />
           <span>{{ address?.address_1 }} </span>
@@ -238,7 +238,11 @@
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Pin Code </mat-label>
-                <input matInput placeholder="Pin Code" formControlName="pincode" />
+                <input
+                  matInput
+                  placeholder="Pin Code"
+                  formControlName="pincode"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -246,7 +250,11 @@
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Landmark </mat-label>
-                <input matInput placeholder="Landmark" formControlName="landmark" />
+                <input
+                  matInput
+                  placeholder="Landmark"
+                  formControlName="landmark"
+                />
               </mat-form-field>
             </div>
           </div>
@@ -294,5 +302,70 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>PAYMENT</ng-template>
+    <div style="padding: 15px">
+      <div>
+        <div *ngIf="cartItems && cartItems.length > 0" class="billing-section">
+          <div class="mt-5">BILLING DETAILS</div>
+          <div class="disp-flex billing-payment">
+            <label>Cart Total</label>
+            <span>₹ {{ cartTotal }}</span>
+          </div>
+          <div class="disp-flex billing-payment">
+            <label>GST</label>
+            <span>₹ {{ gst }}</span>
+          </div>
+          <div class="disp-flex billing-payment">
+            <label>Shipping Charges</label>
+            <span>₹ {{ shippingCharges }}</span>
+          </div>
+          <div class="disp-flex billing-payment font-wt">
+            <label>Total Payable</label>
+            <span>₹ {{ totalPayable }}</span>
+          </div>
+        </div>
+        <div class="col-md-5 ml-4 mt-3" *ngIf="selectedAddress">
+          <div class="font-wt">Address :</div>
+          <span>{{ selectedAddress?.address_1 }} </span>
+          <span>{{ selectedAddress?.address_2 }}</span>
+          <br />
+          <span>{{ selectedAddress?.city }}, </span>
+          <span>{{ selectedAddress?.state }}, </span>
+          <span>{{ selectedAddress?.country }} </span>
+          <br />
+          <span>{{ selectedAddress?.landmark }} </span>
+          <span>{{ selectedAddress?.pincode }}</span>
+        </div>
+      </div>
+      <div *ngIf="cartItems && cartItems.length > 0" class="payment-mode-section mt-5">
+        <div>
+          <span>Please select Payment Mode</span>
+          <div class="address-box mt-2 cursor-pointer" style="padding: 30px 60px;">
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="example-radio-group"
+              [(ngModel)]="selectedPaymentMode"
+            >
+              <mat-radio-button
+                class="example-radio-button"
+                *ngFor="let paymentMode of paymentModes"
+                [value]="paymentMode.key"
+              >
+                {{ paymentMode.value }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="mt-3 mx-4">
+          <button
+            mat-raised-button
+            class="confirm-order-btn"
+            [disabled]="!selectedPaymentMode"
+            (click)="confirmOrder()"
+          >
+            Confirm Order
+          </button>
+        </div>
+      </div>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>

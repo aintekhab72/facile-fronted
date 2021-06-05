@@ -233,3 +233,22 @@ body {
 .mat-progress-spinner circle, .mat-spinner circle {
   stroke: #241977;
 }
+
+.font-wt {
+  font-weight: 600;
+}
+
+/* Carousel start here */
+.carousel-control-next {
+  cursor: pointer;
+}
+
+.carousel-control-prev {
+  cursor: pointer;
+}
+
+.carousel {
+  outline: none;
+}
+
+/* Carousel end here */

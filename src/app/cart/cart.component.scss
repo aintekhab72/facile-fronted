@@ -91,6 +91,35 @@
 }
 
 .selected-address {
-  float: right; 
+  float: right;
   width: 2em;
+}
+
+//Payment
+.billing-payment {
+  justify-content: space-between;
+  border: 1px solid #eee;
+  padding: 10px;
+  width: 300px;
+}
+
+.billing-section {
+  float: right;
+  padding: 0 10px;
+}
+
+.confirm-order-btn {
+  background-color: #298e83;
+  border-color: #298e83;
+  color: #fff;
+  width: 100%;
+  outline: none;
+}
+
+.payment-mode-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align-last: center;
+  // text-align: -webkit-center;
 }

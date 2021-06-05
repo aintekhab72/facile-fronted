@@ -5,7 +5,6 @@ import {
   Validators,
   FormControl
 } from "@angular/forms";
-import { CART, ADDRESS } from "../services/mock.response";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   SNACK_BAR_DURATION,
@@ -16,7 +15,9 @@ import { MatStepper } from "@angular/material/stepper";
 import { HttpParams } from "@angular/common/http";
 import { ShippingAddressService } from "../services/shipping-address.service";
 import { CartService } from "../services/cart.service";
-import { HeaderService } from '../services/header.service';
+import { HeaderService } from "../services/header.service";
+import { OrderService } from "../services/order.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -25,6 +26,7 @@ import { HeaderService } from '../services/header.service';
 })
 export class CartComponent implements OnInit {
   @ViewChild("stepper") stepper: MatStepper;
+  public userId: string;
   public cartItems: any[] = [];
   public firstFormGroup!: FormGroup;
   public secondFormGroup!: FormGroup;
@@ -55,12 +57,23 @@ export class CartComponent implements OnInit {
   public shippingAddressId: any;
   public cartId: any;
 
+  //Payment
+  public paymentModes = [
+    {
+      key: "COD",
+      value: "COD (Cash On Delivery)"
+    }
+  ];
+  public selectedPaymentMode: string;
+
   constructor(
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private shippingAddress: ShippingAddressService,
     private cartService: CartService,
-    private headerService: HeaderService
+    private headerService: HeaderService,
+    private orderService: OrderService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -77,6 +90,7 @@ export class CartComponent implements OnInit {
     let userInfo: any = localStorage.getItem("userInfo");
     userInfo = JSON.parse(userInfo);
     if (userInfo) {
+      this.userId = userInfo._id;
       this.shippingAddressId = userInfo.shipping_address_id;
       if (this.shippingAddressId) {
         this.getShippingAddress(this.shippingAddressId);
@@ -106,7 +120,7 @@ export class CartComponent implements OnInit {
         if (data && data.data && data.data.cart_items) {
           this.cartItems = data.data.cart_items;
           this.calculateTotalPayable(this.cartItems);
-          this.headerService.setCount.next('call');
+          this.headerService.setCount.next("call");
         }
       },
       (error: any) => {
@@ -226,7 +240,7 @@ export class CartComponent implements OnInit {
       cartTotal += element.quantity * element.product_details.mrp;
     });
     this.cartTotal = cartTotal;
-    let actualPrice = this.cartTotal * 100 / GST_PER;
+    let actualPrice = (this.cartTotal * 100) / GST_PER;
     this.gst = Math.round(this.cartTotal - actualPrice);
     this.cartTotal = Math.round(actualPrice);
     this.totalPayable = actualPrice + this.gst + this.shippingCharges;
@@ -379,7 +393,7 @@ export class CartComponent implements OnInit {
       (data: any) => {
         if (data && data.data && data.data.addresses) {
           this.addressList = data.data.addresses;
-          if(this.addressList && this.addressList.length > 0)
+          if (this.addressList && this.addressList.length > 0)
             this.selectedAddress = this.addressList[0];
         }
       },
@@ -400,4 +414,49 @@ export class CartComponent implements OnInit {
     }
   }
   //Address sections end here
+
+  //Payment Section start here
+  confirmOrder() {
+    if (
+      this.userId &&
+      this.selectedAddress &&
+      this.cartItems &&
+      this.selectedPaymentMode
+    ) {
+      const products = this.cartItems.map(eachProd => {
+        return {
+          quantity: eachProd.quantity,
+          variant_id: eachProd.variant_id
+        };
+      });
+
+      const payload = {
+        user_id: this.userId,
+        products: products,
+        coupon_code: "",
+        payment_mode: this.selectedPaymentMode,
+        shipping_address: this.selectedAddress
+      };
+
+      this.orderService.placeOrder(payload).subscribe(
+        (data: any) => {
+          if (data && data.data) {
+            this.snackBar.open("Successfully placed!", "Close", {
+              duration: SNACK_BAR_DURATION
+            });
+            this.router.navigate(["/"]);
+          }
+        },
+        (error: any) => {
+          let errorMessage =
+            error.message ||
+            "Something went wrong, unable to place order. Please try again later";
+          this.snackBar.open(errorMessage, "Close", {
+            panelClass: "snack-error-message",
+            duration: SNACK_BAR_DURATION
+          });
+        }
+      );
+    }
+  }
 }
