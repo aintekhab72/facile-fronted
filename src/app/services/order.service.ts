@@ -15,4 +15,8 @@ export class OrderService {
     return this.apiService.post(this.placeOrderUrl, body);
   }
 
+  getMyOrder(params:any): Observable<any> {
+    return this.apiService.get(this.placeOrderUrl, params);
+  }
+
 }

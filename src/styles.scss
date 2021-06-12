@@ -252,3 +252,10 @@ body {
 }
 
 /* Carousel end here */
+
+.dialog-container-custom {
+  width: 30%;
+  @media screen and (max-width: 768px) {
+    width: 70%;
+  }
+}

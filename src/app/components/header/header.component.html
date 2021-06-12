@@ -34,6 +34,14 @@
       <a class="header-right-item" routerLink="/auth" *ngIf="!isLoggedIn()">
         <mat-icon>account_circle</mat-icon>
       </a>
+      <a
+        class="header-nav-link"
+        *ngIf="isLoggedIn()"
+        routerLink="/my-orders"
+        style="color: #fff; cursor: pointer"
+      >
+        My Orders
+      </a>
       <a class="header-right-item" routerLink="/cart">
         <mat-icon matBadge="{{ cartItems }}" matBadgeColor="warn">
           shopping_cart
@@ -48,7 +56,7 @@
         <mat-icon>account_circle</mat-icon>
       </a>
       <mat-menu #menu="matMenu">
-        <span mat-menu-item class="dropdown">{{userName}}</span>
+        <span mat-menu-item class="dropdown">{{ userName }}</span>
         <span mat-menu-item class="dropdown" (click)="logout()">Logout</span>
       </mat-menu>
     </div>

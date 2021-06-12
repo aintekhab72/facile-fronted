@@ -63,8 +63,11 @@
             {{ "authentication.enter_valid_email" | translate }}
           </mat-error>
         </mat-form-field>
-        <div class="error-section" *ngIf="this.signUpForm.controls['email'].valid && !isValidEmail">
-            Email exists
+        <div
+          class="error-section"
+          *ngIf="this.signUpForm.controls['email'].valid && !isValidEmail"
+        >
+          Email exists
         </div>
       </div>
       <div class="mt-10">
@@ -134,10 +137,12 @@
           <mat-error *ngIf="signUpDetails.mobile.errors?.required">
             {{ "general.validation_required_field" | translate }}
           </mat-error>
-          
         </mat-form-field>
-        <div class="error-section" *ngIf="this.signUpForm.controls['mobile'].valid && !isValidMobile">
-            Mobile exists
+        <div
+          class="error-section"
+          *ngIf="this.signUpForm.controls['mobile'].valid && !isValidMobile"
+        >
+          Mobile exists
         </div>
       </div>
       <div class="example-button-row mt-10">

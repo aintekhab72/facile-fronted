@@ -1,7 +1,7 @@
 <div class="row reset-row mt-5 mb-5">
   <div class="col-md-6">
     <img
-      src="{{ image }}"
+      [src]="image"
       alt="product"
       class="ml-2 mt-2 product-image"
       *ngFor="let image of productDetails?.images"

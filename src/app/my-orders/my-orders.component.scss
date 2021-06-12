@@ -1,0 +1,109 @@
+.my-order-title {
+  text-align: center;
+  font-weight: 600;
+}
+
+.order-section {
+  padding: 16px;
+  width: 100%;
+  font-size: 14px;
+  overflow: hidden;
+  transition: box-shadow 0.1s linear;
+  background-color: #fff;
+  border: 1px solid #dbdbdb;
+  position: relative;
+  cursor: pointer;
+  display: block;
+  box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.15);
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.col-6-12 {
+  width: 50%;
+}
+
+//imga
+.col-3-12 {
+  width: 25%;
+  @media screen and (max-width: 767px) {
+    width: 30%;
+    margin-left: 10px;
+  }
+  @media screen and (max-width: 425px) {
+    width: 40%;
+    margin-left: 30px;
+  }
+}
+
+.prod-image-section {
+  display: flex;
+  -webkit-justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
+  position: relative;
+}
+
+.prod {
+  position: relative;
+  margin: 0 auto;
+}
+
+.prod-image {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 120%;
+}
+
+//prod desc
+.col-8-12 {
+  width: 66.66%;
+  @media screen and (max-width: 767px) {
+    margin-left: 30px;
+    margin-top: 10px;
+  }
+}
+
+//price section
+.order-section .price {
+  color: #212121;
+  text-transform: uppercase;
+}
+.col-2-12 {
+  width: 16.66%;
+}
+
+//order status
+.order-section .status-section {
+  color: #212121;
+}
+.col-4-12 {
+  width: 33.33%;
+}
+
+.order-status.delivered {
+  background-color: #26a541;
+  border: 2px solid #26a541;
+}
+.order-status {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+
+.status {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-desc {
+  font-size: 12px;
+  margin-top: 8px;
+}

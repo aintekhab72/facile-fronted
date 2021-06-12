@@ -151,6 +151,11 @@
           <br />
           <span>{{ address?.landmark }} </span>
           <span>{{ address?.pincode }}</span>
+          <br />
+          <span>Mobile: {{ address?.mobile }}</span>
+          <span *ngIf="address?.alternate_mobile"
+            >, {{ address?.alternate_mobile }}</span
+          >
           <div style="display: flex; justify-content: flex-end;">
             <button
               mat-raised-button
@@ -258,6 +263,26 @@
               </mat-form-field>
             </div>
           </div>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Mobile </mat-label>
+                <input matInput placeholder="Mobile" formControlName="mobile" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Alternate Mobile </mat-label>
+                <input
+                  matInput
+                  placeholder="Alternate Mobile"
+                  formControlName="alternateMobile"
+                />
+              </mat-form-field>
+            </div>
+          </div>
         </div>
         <div class="row">
           <button
@@ -324,7 +349,8 @@
           </div>
         </div>
         <div class="col-md-5 ml-4 mt-3" *ngIf="selectedAddress">
-          <div class="font-wt">Address :</div>
+          <div class="font-wt">Delivery Address :</div>
+          <div class="my-2">{{ userName }}</div>
           <span>{{ selectedAddress?.address_1 }} </span>
           <span>{{ selectedAddress?.address_2 }}</span>
           <br />
@@ -334,12 +360,23 @@
           <br />
           <span>{{ selectedAddress?.landmark }} </span>
           <span>{{ selectedAddress?.pincode }}</span>
+          <br />
+          <span>Mobile: {{ selectedAddress?.mobile }}</span>
+          <span *ngIf="selectedAddress?.alternate_mobile"
+            >, {{ selectedAddress?.alternate_mobile }}</span
+          >
         </div>
       </div>
-      <div *ngIf="cartItems && cartItems.length > 0" class="payment-mode-section mt-5">
+      <div
+        *ngIf="cartItems && cartItems.length > 0"
+        class="payment-mode-section mt-5"
+      >
         <div>
           <span>Please select Payment Mode</span>
-          <div class="address-box mt-2 cursor-pointer" style="padding: 30px 60px;">
+          <div
+            class="address-box mt-2 cursor-pointer"
+            style="padding: 30px 60px;"
+          >
             <mat-radio-group
               aria-labelledby="example-radio-group-label"
               class="example-radio-group"

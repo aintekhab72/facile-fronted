@@ -11,6 +11,7 @@ const routes: Routes = [
   { path: 'products', component: ProductsListComponent},
   { path: 'product-details', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
   { path: "handle/:id", component: HandleComponent},
+  { path: 'my-orders', loadChildren: () => import('./my-orders/my-orders.module').then(m => m.MyOrdersModule) },
 ];
 
 @NgModule({

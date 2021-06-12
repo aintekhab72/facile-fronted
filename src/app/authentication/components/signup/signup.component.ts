@@ -9,9 +9,11 @@ import {
 import { AuthenticationService } from "src/app/services/authentication.service";
 import { LoaderService } from "src/app/services/loader.service";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Router } from '@angular/router';
-import { SNACK_BAR_DURATION } from 'src/app/utils/constants.utils';
-import { HttpParams } from '@angular/common/http';
+import { Router } from "@angular/router";
+import { SNACK_BAR_DURATION } from "src/app/utils/constants.utils";
+import { HttpParams } from "@angular/common/http";
+import { MatDialog } from "@angular/material/dialog";
+import { CustomDialogComponent } from "src/app/shared/custom-dialog/custom-dialog.component";
 
 @Component({
   selector: "app-signup",
@@ -29,7 +31,8 @@ export class SignupComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthenticationService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -114,10 +117,7 @@ export class SignupComponent implements OnInit {
       this.authService.register(body).subscribe(
         (data: any) => {
           if (data && data.data && data.message) {
-            this.router.navigate(["/"]);
-            this.snackBar.open(data.message, "Close", {
-              duration: SNACK_BAR_DURATION
-            });
+            this.openDialog();
           }
         },
         (error: any) => {
@@ -132,11 +132,14 @@ export class SignupComponent implements OnInit {
   }
 
   checkUniqueEmail() {
-    if(this.signUpForm.value.email && this.signUpForm.controls['email'].valid) {
-      let params = new HttpParams().set('email', this.signUpForm.value.email);
+    if (
+      this.signUpForm.value.email &&
+      this.signUpForm.controls["email"].valid
+    ) {
+      let params = new HttpParams().set("email", this.signUpForm.value.email);
       this.authService.uniqueness(params).subscribe(
         (data: any) => {
-          if (data && data.message && data.message == 'Email does not exist') {
+          if (data && data.message && data.message == "Email does not exist") {
             this.isValidEmail = true;
           }
         },
@@ -153,11 +156,14 @@ export class SignupComponent implements OnInit {
   }
 
   checkUniqueMobile() {
-    if(this.signUpForm.value.mobile && this.signUpForm.controls['mobile'].valid) {
-      let params = new HttpParams().set('mobile', this.signUpForm.value.mobile);
+    if (
+      this.signUpForm.value.mobile &&
+      this.signUpForm.controls["mobile"].valid
+    ) {
+      let params = new HttpParams().set("mobile", this.signUpForm.value.mobile);
       this.authService.uniqueness(params).subscribe(
         (data: any) => {
-          if (data && data.message && data.message == 'Mobile does not exist') {
+          if (data && data.message && data.message == "Mobile does not exist") {
             this.isValidMobile = true;
           }
         },
@@ -171,5 +177,15 @@ export class SignupComponent implements OnInit {
         }
       );
     }
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CustomDialogComponent, {
+      panelClass: 'dialog-container-custom'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.router.navigate(["/"]);
+    });
   }
 }

@@ -27,6 +27,7 @@ import { Router } from "@angular/router";
 export class CartComponent implements OnInit {
   @ViewChild("stepper") stepper: MatStepper;
   public userId: string;
+  public userName: string;
   public cartItems: any[] = [];
   public firstFormGroup!: FormGroup;
   public secondFormGroup!: FormGroup;
@@ -91,6 +92,7 @@ export class CartComponent implements OnInit {
     userInfo = JSON.parse(userInfo);
     if (userInfo) {
       this.userId = userInfo._id;
+      this.userName = userInfo.name;
       this.shippingAddressId = userInfo.shipping_address_id;
       if (this.shippingAddressId) {
         this.getShippingAddress(this.shippingAddressId);
@@ -110,6 +112,8 @@ export class CartComponent implements OnInit {
       country: new FormControl("", [Validators.required]),
       pincode: new FormControl("", [Validators.required]),
       landmark: new FormControl(""),
+      mobile: new FormControl("", [Validators.required]),
+      alternateMobile: new FormControl(""),
       elementId: new FormControl("")
     });
   }
@@ -264,6 +268,8 @@ export class CartComponent implements OnInit {
           state: this.addressForm.value.state,
           country: this.addressForm.value.country,
           pincode: this.addressForm.value.pincode,
+          mobile: this.addressForm.value.mobile,
+          alternate_mobile: this.addressForm.value.alternateMobile,
           landmark: this.addressForm.value.landmark
         };
         this.shippingAddress.addAddress(addressObj).subscribe(
@@ -298,6 +304,8 @@ export class CartComponent implements OnInit {
           state: this.addressForm.value.state,
           country: this.addressForm.value.country,
           pincode: this.addressForm.value.pincode,
+          mobile: this.addressForm.value.mobile,
+          alternate_mobile: this.addressForm.value.alternateMobile,
           landmark: this.addressForm.value.landmark
         };
 
@@ -350,6 +358,8 @@ export class CartComponent implements OnInit {
       country: address.country,
       pincode: address.pincode,
       landmark: address.landmark,
+      mobile: address.mobile,
+      alternateMobile: address.alternate_mobile,
       elementId: address.element_id
     });
     this.showAddressFields = true;
