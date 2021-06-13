@@ -454,6 +454,7 @@ export class CartComponent implements OnInit {
             this.snackBar.open("Successfully placed!", "Close", {
               duration: SNACK_BAR_DURATION
             });
+            this.headerService.setCount.next("call");
             this.router.navigate(["/"]);
           }
         },

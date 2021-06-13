@@ -1,6 +1,9 @@
 <div class="mt-3 mb-3 my-order-title">
   <span> MY ORDERS</span>
 </div>
+<div class="empty mt-5" *ngIf="myOrders && myOrders.length === 0">
+  There are no orders yet.
+</div>
 <div class="row mx-3 mt-3" *ngFor="let order of myOrders; let i = index">
   <div class="col-md-12">
     <div class="order-section">
@@ -30,7 +33,7 @@
                   {{ order.products[0].name }}
                 </span>
                 <span class="row">
-                  {{ order.products[0].category || "" }}
+                  {{ order.products[0].category | titlecase }}
                 </span>
               </div>
             </div>

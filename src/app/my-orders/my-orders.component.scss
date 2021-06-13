@@ -1,6 +1,7 @@
 .my-order-title {
   text-align: center;
   font-weight: 600;
+  font-size: 1.5rem;
 }
 
 .order-section {
@@ -106,4 +107,13 @@
 .status-desc {
   font-size: 12px;
   margin-top: 8px;
+}
+
+
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: 500;
 }
