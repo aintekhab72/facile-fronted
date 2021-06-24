@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { ProductsListComponent } from './products-list/products-list.component';
 import { HandleComponent } from './handle/handle.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent},
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'product-details', loadChildren: () => import('./product-details/product-details.module').then(m => m.ProductDetailsModule) },
   { path: "handle/:id", component: HandleComponent},
   { path: 'my-orders', loadChildren: () => import('./my-orders/my-orders.module').then(m => m.MyOrdersModule) },
+  { path: "forgot-password/:id", component: ResetPasswordComponent},
 ];
 
 @NgModule({

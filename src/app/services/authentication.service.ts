@@ -11,6 +11,7 @@ export class AuthenticationService {
   private loginUrl = environment.serverUrl + "v1/user/login";
   private uniquenessUrl = environment.serverUrl + "v1/uniqueness";
   private userInfoUrl = environment.serverUrl + "v1/user/info";
+  private forgotPasswordInitUrl = environment.serverUrl + "v1/verify/email";
 
   constructor(private apiService: ApiService) {}
 
@@ -28,5 +29,9 @@ export class AuthenticationService {
 
   userInfo(params: any): Observable<any> {
     return this.apiService.get(this.userInfoUrl, params);
+  }
+
+  forgotPasswordInit(params:any): Observable<any> {
+    return this.apiService.get(this.forgotPasswordInitUrl, params)
   }
 }

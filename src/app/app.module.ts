@@ -18,6 +18,7 @@ import {
 import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { HandleComponent } from './handle/handle.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 export function createTranslateLoader(http: HttpClient): any {
   return new TranslateHttpLoader(http, "./assets/i18n/", ".json");
@@ -34,7 +35,8 @@ export function setupTranslateFactory(service: TranslateService): Function {
     LoaderComponent,
     ProductsListComponent,
     HeaderComponent,
-    HandleComponent
+    HandleComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,

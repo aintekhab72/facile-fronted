@@ -1,18 +1,38 @@
 <section class="bgcolor">
-    <div class="header-sec">
-        <div *ngIf="isLogin" class="header-title">{{'authentication.login_with_facile' | translate}}</div>
-        <div *ngIf="isSignup" class="header-title">{{'authentication.register_with_facile' | translate}}</div>
+  <div class="header-sec">
+    <div *ngIf="isLogin" class="header-title">
+      {{ "authentication.login_with_facile" | translate }}
     </div>
-    <div class="auth-section">
-        <mat-tab-group [selectedIndex]="selectedIndex" (selectedTabChange)="selectTab($event)">
-            <mat-tab label="{{'authentication.label_login' | translate}}">
-                <app-login *ngIf="isLogin"></app-login>
-                <div class="redirect">{{'authentication.new_user' | translate}} <span (click)="redirectTo(1)">{{'authentication.create_account' | translate}}</span></div>
-            </mat-tab>
-            <mat-tab label="{{'authentication.label_register' | translate}}">
-                <app-signup *ngIf="isSignup"></app-signup>
-                <div class="redirect">{{'authentication.already_a_user' | translate}} <span (click)="redirectTo(0)"> {{'authentication.login' | translate}} </span></div>
-            </mat-tab>
-        </mat-tab-group>
+    <div *ngIf="isSignup" class="header-title">
+      {{ "authentication.register_with_facile" | translate }}
     </div>
+  </div>
+  <div class="auth-section">
+    <mat-tab-group
+      [selectedIndex]="selectedIndex"
+      (selectedTabChange)="selectTab($event)"
+    >
+      <mat-tab label="{{ 'authentication.label_login' | translate }}">
+        <app-login *ngIf="isLogin"></app-login>
+        <div class="redirect">
+          {{ "authentication.new_user" | translate }}
+          <span (click)="redirectTo(1)">{{
+            "authentication.create_account" | translate
+          }}</span>
+        </div>
+        <div class="redirect forgot-password" (click)="forgotPasswordInit()">
+          Forgot Password ?
+        </div>
+      </mat-tab>
+      <mat-tab label="{{ 'authentication.label_register' | translate }}">
+        <app-signup *ngIf="isSignup"></app-signup>
+        <div class="redirect">
+          {{ "authentication.already_a_user" | translate }}
+          <span (click)="redirectTo(0)">
+            {{ "authentication.login" | translate }}
+          </span>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </section>

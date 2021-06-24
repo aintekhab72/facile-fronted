@@ -1,15 +1,27 @@
 .success {
-    width: 14%;
+  width: 14%;
 }
 
 .mat-dialog-content {
-    text-align: center;
+  text-align: center;
 }
 
 .cdk-overlay-pane {
-    max-width: 30vw !important;
+  max-width: 30vw !important;
 }
 
 .close {
-    outline: none;
+  outline: none;
+}
+
+.error {
+  text-align: center;
+  color: #f01b0c;
+  font-size: 1.5rem;
+}
+
+.success-msg {
+  text-align: center;
+  color: #000000;
+  font-size: 1.5rem;
 }
