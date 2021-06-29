@@ -16,6 +16,7 @@
         "login_with_facile": "Login with the Facile",
         "register_with_facile": "Register with the Facile",
         "label_userId": "User ID",
+        "label_email": "Email ID",
         "label_password": "Password",
         "placeholder_email": "Enter Email Id or Phone number",
         "placeholder_password": "Ex: *****",

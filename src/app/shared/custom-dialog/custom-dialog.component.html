@@ -1,0 +1,51 @@
+<ng-container *ngIf="data.state === 'default'">
+  <mat-dialog-content class="mat-typography">
+    <h3 class="success-msg">Registration Successful</h3>
+    <img src="./assets/images/success.png" alt="success" class="success" />
+    <p>
+      Please go through your Email and verify your account.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close class="close">OK</button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-container *ngIf="data.state === 'forgot-init-success'">
+  <mat-dialog-content class="mat-typography">
+    <h3 class="success-msg">Forgot Password Request Successful</h3>
+    <img src="./assets/images/success.png" alt="success" class="success" />
+    <p>
+      Please go through your Email to reset password.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close class="close">OK</button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-container *ngIf="data.state === 'reset-password-success'">
+  <mat-dialog-content class="mat-typography">
+    <h3 class="success-msg">Password Reset Successful</h3>
+    <img src="./assets/images/success.png" alt="success" class="success" />
+    <p>
+      You have successfully reset the password. Please login to continue
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close class="close">OK</button>
+  </mat-dialog-actions>
+</ng-container>
+
+<ng-container *ngIf="data.state === 'fail'">
+  <mat-dialog-content class="mat-typography">
+    <h3 class="error">Error Occured</h3>
+    <img src="./assets/images/error.png" alt="error" class="success" />
+    <p>
+      Something went wrong, please try again later.
+    </p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close class="close">OK</button>
+  </mat-dialog-actions>
+</ng-container>

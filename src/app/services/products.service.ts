@@ -14,4 +14,8 @@ export class ProductsService {
   getProducts(params: any): Observable<any> {
     return this.apiService.get(this.productsList, params);
   }
+
+  getProductDetailsById(params: any): Observable<any> {
+    return this.apiService.get(this.productsList, params);
+  }
 }

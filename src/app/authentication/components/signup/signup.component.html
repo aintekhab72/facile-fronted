@@ -1,83 +1,161 @@
 <div class="tab-section">
-    <div class="form-container">
-        <form [formGroup]="signUpForm">
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_first_name' | translate}}</mat-label>
-                    <input matInput id="firstName" formControlName="firstName" autocomplete="off">
-                    <mat-error *ngIf="signUpDetails.firstName.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_middle_name' | translate}}</mat-label>
-                    <input matInput id="middleName" formControlName="middleName" autocomplete="off">
-                </mat-form-field>
-            </div>
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_last_name' | translate}}</mat-label>
-                    <input matInput id="lastName" formControlName="lastName" autocomplete="off">
-                    <mat-error *ngIf="signUpDetails.lastName.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_email' | translate}}</mat-label>
-                    <input matInput id="email" formControlName="email" autocomplete="off">
-                    <mat-error *ngIf="signUpDetails.email.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                    <mat-error *ngIf="signUpDetails.email.errors?.email">
-                       {{'authentication.enter_valid_email' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_new_password' | translate}}</mat-label>
-                    <input matInput id="password" [type]="hide ? 'password' : 'text'" (keyup)="validPassword()" formControlName="password">
-                    <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
-                        [attr.aria-pressed]="hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                    <mat-error *ngIf="signUpDetails.password.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                    <mat-error *ngIf="isvalidPassword">
-                       {{'authentication.password_pattern_validation_message' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="mt-20">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Confirm Password</mat-label>
-                    <input matInput id="confirm-password" type="password" formControlName="confirmPassword">
-                    <mat-error *ngIf="signUpDetails.confirmPassword.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                    <mat-error *ngIf="signUpDetails.confirmPassword.errors?.confirmPasswordValidator">
-                        {{'authentication.password_match_validation_message' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="mt-10">
-                <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>{{'authentication.label_mobile' | translate}}</mat-label>
-                    <input type="tel" appMobile matInput id="mobile" formControlName="mobile" autocomplete="off">
-                    <mat-error *ngIf="signUpDetails.mobile.errors?.required">
-                        {{'general.validation_required_field' | translate}}
-                    </mat-error>
-                </mat-form-field>
-            </div>
-            <div class="example-button-row mt-10">
-                <button mat-raised-button class="auth-button" id="signup-submit" color="primary"
-                    (click)="signUp()">{{'authentication.label_register' | translate}}</button>
-            </div>
-        </form>
-    </div>
+  <div class="form-container">
+    <form [formGroup]="signUpForm">
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{
+            "authentication.label_first_name" | translate
+          }}</mat-label>
+          <input
+            matInput
+            id="firstName"
+            formControlName="firstName"
+            autocomplete="off"
+          />
+          <mat-error *ngIf="signUpDetails.firstName.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{
+            "authentication.label_middle_name" | translate
+          }}</mat-label>
+          <input
+            matInput
+            id="middleName"
+            formControlName="middleName"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{
+            "authentication.label_last_name" | translate
+          }}</mat-label>
+          <input
+            matInput
+            id="lastName"
+            formControlName="lastName"
+            autocomplete="off"
+          />
+          <mat-error *ngIf="signUpDetails.lastName.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ "authentication.label_email" | translate }}</mat-label>
+          <input
+            matInput
+            id="email"
+            formControlName="email"
+            autocomplete="off"
+            (blur)="checkUniqueEmail()"
+          />
+          <mat-error *ngIf="signUpDetails.email.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+          <mat-error *ngIf="signUpDetails.email.errors?.email">
+            {{ "authentication.enter_valid_email" | translate }}
+          </mat-error>
+        </mat-form-field>
+        <div
+          class="error-section"
+          *ngIf="this.signUpForm.controls['email'].valid && !isValidEmail"
+        >
+          Email exists
+        </div>
+      </div>
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{
+            "authentication.label_new_password" | translate
+          }}</mat-label>
+          <input
+            matInput
+            id="password"
+            [type]="hide ? 'password' : 'text'"
+            (keyup)="validPassword()"
+            formControlName="password"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            (click)="hide = !hide"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hide"
+          >
+            <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+          </button>
+          <mat-error *ngIf="signUpDetails.password.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+          <mat-error *ngIf="isvalidPassword">
+            {{
+              "authentication.password_pattern_validation_message" | translate
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-20">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>Confirm Password</mat-label>
+          <input
+            matInput
+            id="confirm-password"
+            type="password"
+            formControlName="confirmPassword"
+          />
+          <mat-error *ngIf="signUpDetails.confirmPassword.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+          <mat-error
+            *ngIf="
+              signUpDetails.confirmPassword.errors?.confirmPasswordValidator
+            "
+          >
+            {{ "authentication.password_match_validation_message" | translate }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="mt-10">
+        <mat-form-field class="example-full-width" appearance="outline">
+          <mat-label>{{ "authentication.label_mobile" | translate }}</mat-label>
+          <input
+            type="tel"
+            appMobile
+            matInput
+            id="mobile"
+            formControlName="mobile"
+            autocomplete="off"
+            (blur)="checkUniqueMobile()"
+          />
+          <mat-error *ngIf="signUpDetails.mobile.errors?.required">
+            {{ "general.validation_required_field" | translate }}
+          </mat-error>
+        </mat-form-field>
+        <div
+          class="error-section"
+          *ngIf="this.signUpForm.controls['mobile'].valid && !isValidMobile"
+        >
+          Mobile exists
+        </div>
+      </div>
+      <div class="example-button-row mt-10">
+        <button
+          mat-raised-button
+          class="auth-button"
+          id="signup-submit"
+          color="primary"
+          (click)="signUp()"
+        >
+          {{ "authentication.label_register" | translate }}
+        </button>
+      </div>
+    </form>
+  </div>
 </div>

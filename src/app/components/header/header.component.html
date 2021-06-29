@@ -1,5 +1,9 @@
 <section>
-  <div class="header-section animated fadeInDown" id="navbar">
+  <div
+    class="header-section animated fadeInDown"
+    id="navbar"
+    style="z-index: 20;"
+  >
     <div class="header-links">
       <ul class="navbar-nav">
         <li class="shop nav-item dropdown">
@@ -17,20 +21,44 @@
     <div
       class="header-logo"
       id="header-navigate"
-      style="text-align: center;
-    margin: auto;"
+      style="text-align: center; margin: auto;"
     >
-      <img src="assets/images/logo2.jpg" id="logo" alt="Logo" routerLink="/" />
+      <img
+        src="./assets/images/facile-logo-wt.png"
+        id="logo"
+        alt="Logo"
+        routerLink="/"
+      />
     </div>
     <div class="auth">
-      <a class="header-right-item" routerLink="/auth">
+      <a class="header-right-item" routerLink="/auth" *ngIf="!isLoggedIn()">
         <mat-icon>account_circle</mat-icon>
+      </a>
+      <a
+        class="header-nav-link"
+        *ngIf="isLoggedIn()"
+        routerLink="/my-orders"
+        style="color: #fff; cursor: pointer"
+      >
+        My Orders
       </a>
       <a class="header-right-item" routerLink="/cart">
         <mat-icon matBadge="{{ cartItems }}" matBadgeColor="warn">
           shopping_cart
         </mat-icon>
       </a>
+      <a
+        class="header-right-item"
+        [matMenuTriggerFor]="menu"
+        *ngIf="isLoggedIn()"
+        style="color: #fff; cursor: pointer"
+      >
+        <mat-icon>account_circle</mat-icon>
+      </a>
+      <mat-menu #menu="matMenu">
+        <span mat-menu-item class="dropdown">{{ userName }}</span>
+        <span mat-menu-item class="dropdown" (click)="logout()">Logout</span>
+      </mat-menu>
     </div>
   </div>
 </section>

@@ -17,7 +17,7 @@
   <div class="product-body">
     <div *ngFor="let prod of productList">
       <div class="productlist">
-        <a class="listhover">
+        <a class="listhover" (click)="productDetails(prod)">
           <!-- <div class="listhoverimg" style="background-image: url({{prod.images[1]}});"></div> -->
           <img src="{{ prod.images[0] }}" alt="" />
         </a>
@@ -31,7 +31,7 @@
           </div>
         </div>
       </div>
-      <button (click)="addTOCart(prod, 'XS', 2)">Add to Cart</button>
+      <!-- <button (click)="addTOCart(prod, 'XS', 2)">Add to Cart</button> -->
     </div>
   </div>
 </section>

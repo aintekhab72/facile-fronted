@@ -1,9 +1,10 @@
 import { Component, OnInit, HostListener } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SNACK_BAR_DURATION } from "../utils/constants.utils";
 import { HttpParams } from "@angular/common/http";
 import { ProductsService } from "../services/products.service";
+import { HeaderService } from "../services/header.service";
 
 @Component({
   selector: "app-products-list",
@@ -19,7 +20,9 @@ export class ProductsListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private productService: ProductsService
+    private productService: ProductsService,
+    private router: Router,
+    private headerService: HeaderService
   ) {}
 
   ngOnInit(): void {
@@ -49,6 +52,14 @@ export class ProductsListComponent implements OnInit {
     if (this.categoryId) {
       this.getProductList(this.categoryId);
     }
+
+    this.headerService.setCategory.subscribe((value: any) => {
+      if (value === "productList") {
+        console.log('categoryId', this.categoryId);
+        
+        this.getProductList(this.categoryId);
+      }
+    });
   }
 
   @HostListener("window:scroll", ["$event"])
@@ -79,6 +90,12 @@ export class ProductsListComponent implements OnInit {
         });
       }
     );
+  }
+
+  productDetails(prod: any) {
+    this.router.navigate(["/product-details"], {
+      queryParams: { productId: prod._id }
+    });
   }
 
   addTOCart(prod: any, size: any, quantity: any) {

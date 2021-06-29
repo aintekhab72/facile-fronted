@@ -1,0 +1,59 @@
+<!-- Init section start here -->
+<div class="pt-5" *ngIf="showEvent === 'init'">
+  <div class="row">
+    <div class="col-md-3 col-sm-3"></div>
+    <div class="col-md-6 col-sm-6" style="text-align: center">
+      <div class="rules-alignment text-center mt-3">
+        <img src="./assets/images/facile-logo.png" alt="Logo" />
+        <h3 class="mt-3">Verifying Your Email Address . . .</h3>
+        <br />
+        <h3>Please Wait</h3>
+        <mat-spinner></mat-spinner>
+        <!-- <em class="fa fa-spinner fa-pulse fa-3x fa-fw"></em> -->
+        <!-- <span class="sr-only text-center">Loading...</span> -->
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-3"></div>
+  </div>
+</div>
+<!-- Init section ends here -->
+
+<!-- Success section start here -->
+<div class="pt-5" *ngIf="showEvent === 'success'">
+  <div class="row">
+    <div class="col-md-3 col-sm-3"></div>
+    <div class="col-md-6 col-sm-6" style="text-align: center">
+      <div class="alignment">
+        <img src="./assets/images/facile-logo.png" alt="Logo" />
+        <h2 class="mt-3">Thank you for confirmation</h2>
+        <br />
+        <button
+          mat-raised-button
+          class="auth-button"
+          color="primary"
+          (click)="signIn()"
+        >
+          LOGIN
+        </button>
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-3"></div>
+  </div>
+</div>
+<!-- Success section ends here -->
+
+<!-- Failure section start here -->
+<div class="pt-5" *ngIf="showEvent === 'fail'">
+  <div class="row">
+    <div class="col-md-3 col-sm-3"></div>
+    <div class="col-md-6 col-sm-6" style="text-align: center">
+      <div class="alignment">
+        <img src="./assets/images/facile-logo.png" alt="Logo" />
+        <h2 class="mt-4">Something went wrong, unable to process.</h2>
+        <br />
+      </div>
+    </div>
+    <div class="col-md-3 col-sm-3"></div>
+  </div>
+</div>
+<!-- Failure section ends here -->

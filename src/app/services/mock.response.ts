@@ -326,19 +326,161 @@ export const CART = {
 
 export const ADDRESS = [
   {
+    id: 1,
     addressLine1: "#445 Tony Mahal",
     addressLine2: "Rajaji Nagar 5th cross Hebbal",
     city: "Bangalore",
     state: "Karnataka",
     country: "India",
-    pincode: "581222"
+    pincode: "581222",
+    landmark: "Tony mahal"
   },
   {
+    id: 2,
     addressLine1: "#445 Tony urf rajastan ",
     addressLine2: "vijayanagar Nagar 5th cross Hebbal",
     city: "Bangalore",
     state: "Karnataka",
     country: "India",
-    pincode: "581222"
-  },
+    pincode: "581222",
+    landmark: "Tony mahal"
+  }
 ];
+
+export const PRODUCT = {
+  images: [
+    "./assets/products/1596640212_8695705.jpg",
+    "./assets/products/1596553382_4249970.jpg",
+    "./assets/products/1596640212_8695705.jpg",
+    "./assets/products/1596553382_4249970.jpg"
+  ],
+  _id: "605251c2af2fcd293ae5cf66",
+  name: "Donald Duck: Stripes",
+  brand: "FACILE",
+  date_time: "2020-08-19T13:50:12.612406",
+  category: "T-SHIRT",
+  category_id: "602d59407f791d0354616ad7",
+  active: true,
+  mrp: 599,
+  sp: 599,
+  margin_price: 10,
+  manufacturer_unique_number: "",
+  description:
+    "Post his retirement, Steve Rogers came to us with a request - a t-shirt that is not too casual, not too formal and one hundred percent Captain America.",
+  attributes: [
+    {
+      _id: "605251c2af2fcd293ae5cf67",
+      sequence: 1,
+      name: "Country Of Origin",
+      value: "India (and Proud)"
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf67",
+      sequence: 1,
+      name: "Material",
+      value: "100% cotton"
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf67",
+      sequence: 1,
+      name: "Wash Care",
+      value:
+        "Machine wash. Wash in cold water, use mild detergent, dry inshade, do not iron directly or scrub on print, do not bleach, do not tumble dry. Dry on flat surface as hanging may cause measurement variations."
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf67",
+      sequence: 1,
+      name: "Material",
+      value: "100% cotton"
+    }
+  ],
+  createdAt: "1617282983380",
+  updatedAt: "1617282983380",
+  variants: [
+    {
+      _id: "605251c2af2fcd293ae5cf65",
+      product_id: "605251c2af2fcd293ae5cf66",
+      name: "Donald Duck: Stripes",
+      active: true,
+      stock: 100,
+      description: "",
+      size: "S",
+      attributes: [
+        {
+          _id: "605251c2af2fcd293ae5cf67",
+          sequence: 1,
+          name: "Size",
+          value: "small"
+        }
+      ]
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf66",
+      product_id: "605251c2af2fcd293ae5cf66",
+      name: "Donald Duck: Stripes",
+      active: true,
+      stock: 100,
+      description: "",
+      size: "M",
+      attributes: [
+        {
+          _id: "605251c2af2fcd293ae5cf67",
+          sequence: 1,
+          name: "Size",
+          value: "small"
+        }
+      ]
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf67",
+      product_id: "605251c2af2fcd293ae5cf66",
+      name: "Donald Duck: Stripes",
+      active: true,
+      stock: 100,
+      description: "",
+      size: "L",
+      attributes: [
+        {
+          _id: "605251c2af2fcd293ae5cf67",
+          sequence: 1,
+          name: "Size",
+          value: "small"
+        }
+      ]
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf68",
+      product_id: "605251c2af2fcd293ae5cf66",
+      name: "Donald Duck: Stripes",
+      active: true,
+      stock: 100,
+      description: "",
+      size: "XL",
+      attributes: [
+        {
+          _id: "605251c2af2fcd293ae5cf67",
+          sequence: 1,
+          name: "Size",
+          value: "small"
+        }
+      ]
+    },
+    {
+      _id: "605251c2af2fcd293ae5cf69",
+      product_id: "605251c2af2fcd293ae5cf66",
+      name: "Donald Duck: Stripes",
+      active: true,
+      stock: 100,
+      description: "",
+      size: "XXL",
+      attributes: [
+        {
+          _id: "605251c2af2fcd293ae5cf67",
+          sequence: 1,
+          name: "Size",
+          value: "small"
+        }
+      ]
+    }
+  ]
+};

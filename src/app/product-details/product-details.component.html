@@ -1,0 +1,82 @@
+<div class="row reset-row mt-5 mb-5">
+  <div class="col-md-6">
+    <img
+      [src]="image"
+      alt="product"
+      class="ml-2 mt-2 product-image"
+      *ngFor="let image of productDetails?.images"
+    />
+  </div>
+  <div class="col-md-1"></div>
+  <div class="col-md-5 mt-3">
+    <div class="prod-name">
+      {{ productDetails.name }}
+    </div>
+    <div class="mt-2" class="prod-category">
+      {{ productDetails.category }}
+    </div>
+    <span class="horizontal-line mt-4"></span>
+    <div class="mt-4" style="font-size:1.5em;">₹ {{ productDetails.mrp }}</div>
+    <div class="mt-5" style="display: flex">
+      <span
+        *ngFor="let variant of productDetails.variants; let i = index"
+        [ngClass]="{ 'ml-2': i > 0 }"
+      >
+        <span
+          class="variant-size-box cursor-pointer"
+          [ngClass]="{
+            'selected-size':
+              selectedVariant && selectedVariant.size === variant.size
+          }"
+          (click)="selectVariant(variant)"
+        >
+          {{ variant.size }}
+        </span>
+      </span>
+    </div>
+    <div
+      *ngIf="
+        !selectedVariant && showError && isVariantSelected === 'not_selected'
+      "
+      class="alert alert-danger mt-4"
+    >
+      Please select size.
+    </div>
+    <div class="mt-4">
+      Quantity
+      <select class="ml-3" name="quantity" [(ngModel)]="cartQuantity">
+        <option *ngFor="let option of quatityOptions">{{ option }}</option>
+      </select>
+    </div>
+    <div class="mt-5">
+      <button mat-raised-button class="cart-btn" (click)="addToCart()">
+        ADD TO CART
+      </button>
+    </div>
+    <div class="mt-5">
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Product Description
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <p>{{ productDetails.description }}</p>
+        </mat-expansion-panel>
+        <mat-expansion-panel class="mt-1">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Product Details
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div *ngFor="let attribute of productDetails.attributes">
+            <div class="mt-2">
+              <label class="attribute-key">{{ attribute.name }}: </label>
+              <span class="ml-2">{{ attribute.value }}</span>
+            </div>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </div>
+</div>

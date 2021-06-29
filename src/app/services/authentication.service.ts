@@ -7,25 +7,31 @@ import { Observable, of } from "rxjs";
   providedIn: "root"
 })
 export class AuthenticationService {
-  private registerUrl = environment.serverUrl + "user/register";
+  private registerUrl = environment.serverUrl + "v1/user/register";
   private loginUrl = environment.serverUrl + "v1/user/login";
+  private uniquenessUrl = environment.serverUrl + "v1/uniqueness";
+  private userInfoUrl = environment.serverUrl + "v1/user/info";
+  private forgotPasswordInitUrl = environment.serverUrl + "v1/verify/email";
 
   constructor(private apiService: ApiService) {}
 
-  // register(userForm:any):Observable<any> {
-  //   return this.apiService.post(this.registerUrl, userForm);
-  // }
+  uniqueness(params:any):Observable<any> {
+    return this.apiService.get(this.uniquenessUrl, params);
+  }
 
-  register(userForm: any) {
-    return of({
-      status: "pass",
-      ver: "1.0.0",
-      message: "Successfully Created",
-      data: { user_id: 6 }
-    });
+  register(userForm: any): Observable<any> {
+    return this.apiService.post(this.registerUrl, userForm);
   }
 
   login(userForm: any): Observable<any> {
     return this.apiService.post(this.loginUrl, userForm);
+  }
+
+  userInfo(params: any): Observable<any> {
+    return this.apiService.get(this.userInfoUrl, params);
+  }
+
+  forgotPasswordInit(params:any): Observable<any> {
+    return this.apiService.get(this.forgotPasswordInitUrl, params)
   }
 }

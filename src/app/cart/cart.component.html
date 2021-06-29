@@ -1,8 +1,8 @@
-<mat-horizontal-stepper linear #stepper>
+<mat-horizontal-stepper linear #stepper class="mt-5">
   <mat-step completed="false">
     <ng-template matStepLabel>CART</ng-template>
     <div style="padding: 15px">
-      <div *ngIf="cartItems.length > 0" class="row mt-3">
+      <div *ngIf="cartItems && cartItems.length > 0" class="row mt-3">
         <div class="col-md-9 disp-flex items-total">
           <span>Items ({{ cartItems.length }})</span>
           <span>Total Payable: ₹ {{ totalPayable }}</span>
@@ -21,14 +21,18 @@
         <div class="col-md-9 mt-4" *ngFor="let cart of cartItems">
           <div class="row cart-box">
             <div class="col-md-3 col-sm-3 col-12">
-              <img src="{{ cart.images[0] }}" alt="" />
+              <img src="{{ cart.product_details.images[0] }}" alt="" />
             </div>
             <div class="col-md-9 col-sm-9 col-12 cart-desc">
               <div class="disp-flex-col">
-                <label class="mt-2 cart-name">{{ cart.name }}</label>
-                <label class="mt-2 cart-category">{{ cart.category }}</label>
+                <label class="mt-2 cart-name">{{
+                  cart.product_details.name
+                }}</label>
+                <label class="mt-2 cart-category">{{
+                  cart.product_details.category
+                }}</label>
                 <div class="disp-flex mt-2" style="align-items: center">
-                  <label>SIZE : {{ cart.size }}</label>
+                  <label>SIZE : {{ cart.variant_details.size }}</label>
                   <span class="mx-3 vertical-line"></span>
                   <div>
                     QTY :
@@ -46,17 +50,17 @@
               </div>
               <span class="horizontal-line mt-4"></span>
               <div class="mt-3">
-                <button mat-stroked-button (click)="removeItems(cart)">
+                <button mat-stroked-button (click)="deleteCart(cart)">
                   Remove
                 </button>
               </div>
             </div>
             <div style="position: absolute; right: 3rem;">
-              ₹ {{ cart.quantity * cart.mrp }}
+              ₹ {{ cart.quantity * cart.product_details.mrp }}
             </div>
           </div>
         </div>
-        <div class="col-md-3" *ngIf="cartItems.length > 0">
+        <div class="col-md-3" *ngIf="cartItems && cartItems.length > 0">
           <div class="mt-5">BILLING DETAILS</div>
           <div class="disp-flex billing-cart-box">
             <label>Cart Total</label>
@@ -74,7 +78,11 @@
             <label>Total Payable</label>
             <span>₹ {{ totalPayable }}</span>
           </div>
-          <button mat-raised-button class="place-order-btn">
+          <button
+            mat-raised-button
+            class="place-order-btn"
+            (click)="goToNextStep()"
+          >
             PLACE ORDER
           </button>
         </div>
@@ -97,32 +105,84 @@
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>ADDRESS</ng-template>
+    <div class="add-address-btn mt-2">
+      <button
+        mat-raised-button
+        class="primary-color-btn"
+        (click)="addAddressShowDialogBox()"
+      >
+        ADD ADDRESS
+      </button>
+    </div>
     <div *ngIf="addressList && addressList.length > 0" class="mt-4">
       <label class="ml-3 label-text">Select Address</label>
       <div class="row">
         <div
-          class="col-md-5 address-box ml-4 mt-4"
-          *ngFor="let address of addressList"
+          class="col-md-5 address-box ml-4 mt-4 cursor-pointer"
+          *ngFor="let address of addressList; let i = index"
+          (click)="onSelectAddress(address)"
         >
-          <span>{{ address.addressLine1 }} </span>
-          <span>{{ address.addressLine2 }}</span>
+          <img
+            class="selected-address"
+            *ngIf="
+              selectedAddress &&
+              address &&
+              address?.element_id === selectedAddress.element_id
+            "
+            src="./assets/svg/checked.svg"
+            alt="Checked"
+          />
+          <img
+            class="selected-address"
+            *ngIf="
+              selectedAddress &&
+              address &&
+              address?.element_id !== selectedAddress.element_id
+            "
+            src="./assets/svg/unchecked2.png"
+            alt="Checked"
+          />
+          <span>{{ address?.address_1 }} </span>
+          <span>{{ address?.address_2 }}</span>
           <br />
-          <span>{{ address.city }}, </span>
-          <span>{{ address.state }}, </span>
-          <span>{{ address.country }} </span>
+          <span>{{ address?.city }}, </span>
+          <span>{{ address?.state }}, </span>
+          <span>{{ address?.country }} </span>
           <br />
-          <span>{{ address.pincode }}</span>
+          <span>{{ address?.landmark }} </span>
+          <span>{{ address?.pincode }}</span>
+          <br />
+          <span>Mobile: {{ address?.mobile }}</span>
+          <span *ngIf="address?.alternate_mobile"
+            >, {{ address?.alternate_mobile }}</span
+          >
+          <div style="display: flex; justify-content: flex-end;">
+            <button
+              mat-raised-button
+              class="action-btns edit-btn"
+              (click)="editAddress(address)"
+            >
+              <mat-icon>edit</mat-icon>
+              Edit
+            </button>
+            <button
+              mat-raised-button
+              class="action-btns delete-btn ml-2"
+              (click)="deleteAddress(address)"
+            >
+              <mat-icon>delete</mat-icon>
+              Delete
+            </button>
+          </div>
         </div>
       </div>
     </div>
-    <div>
-      <button
-        mat-raised-button
-        class="mt-5 primary-color-btn"
-        (click)="showAddressFields = true"
-      >
-        ADD ADDRESS
-      </button>
+    <div
+      *ngIf="addressList && addressList.length === 0 && !showAddressFields"
+      class="mt-4"
+      style="display: flex; justify-content: center;"
+    >
+      <img src="./assets/images/no-record-found.png" alt="No Records" />
     </div>
     <div class="address-cart mt-4" *ngIf="showAddressFields">
       <form [formGroup]="addressForm">
@@ -151,7 +211,7 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>City </mat-label>
@@ -159,48 +219,190 @@
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>State </mat-label>
-                <input matInput placeholder="state" formControlName="state" />
+                <input matInput placeholder="State" formControlName="state" />
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Country </mat-label>
                 <input
                   matInput
-                  placeholder="country"
+                  placeholder="Country"
                   formControlName="country"
                 />
               </mat-form-field>
             </div>
           </div>
-          <div class="col-md-3">
+          <div class="col-md-4">
             <div class="mt-10">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Pin Code </mat-label>
-                <input matInput placeholder="pin" formControlName="pincode" />
+                <input
+                  matInput
+                  placeholder="Pin Code"
+                  formControlName="pincode"
+                />
               </mat-form-field>
             </div>
           </div>
-          <div class="example-button-row mt-10">
-            <button
-              mat-raised-button
-              class="primary-color-btn"
-              (click)="addAddress()"
-            >
-              Continue
-            </button>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Landmark </mat-label>
+                <input
+                  matInput
+                  placeholder="Landmark"
+                  formControlName="landmark"
+                />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Mobile </mat-label>
+                <input matInput placeholder="Mobile" formControlName="mobile" />
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="mt-10">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Alternate Mobile </mat-label>
+                <input
+                  matInput
+                  placeholder="Alternate Mobile"
+                  formControlName="alternateMobile"
+                />
+              </mat-form-field>
+            </div>
           </div>
         </div>
+        <div class="row">
+          <button
+            mat-raised-button
+            class="primary-color-btn ml-3 mt-2 action-btns"
+            (click)="addAddress()"
+          >
+            Save
+          </button>
+
+          <button
+            mat-stroked-button
+            class="ml-3 mt-2 action-btns"
+            (click)="closeAddress()"
+          >
+            Close
+          </button>
+
+          <button
+            mat-stroked-button
+            class="ml-3 mt-2 action-btns"
+            (click)="clearAddress()"
+          >
+            Clear
+          </button>
+        </div>
       </form>
+    </div>
+    <div
+      style="float: right"
+      class="mt-3"
+      *ngIf="addressList && addressList.length > 0"
+    >
+      <button
+        mat-raised-button
+        class="primary-color-btn"
+        (click)="continueToPayment()"
+      >
+        Continue to Payment
+      </button>
     </div>
   </mat-step>
   <mat-step>
     <ng-template matStepLabel>PAYMENT</ng-template>
+    <div style="padding: 15px">
+      <div>
+        <div *ngIf="cartItems && cartItems.length > 0" class="billing-section">
+          <div class="mt-5">BILLING DETAILS</div>
+          <div class="disp-flex billing-payment">
+            <label>Cart Total</label>
+            <span>₹ {{ cartTotal }}</span>
+          </div>
+          <div class="disp-flex billing-payment">
+            <label>GST</label>
+            <span>₹ {{ gst }}</span>
+          </div>
+          <div class="disp-flex billing-payment">
+            <label>Shipping Charges</label>
+            <span>₹ {{ shippingCharges }}</span>
+          </div>
+          <div class="disp-flex billing-payment font-wt">
+            <label>Total Payable</label>
+            <span>₹ {{ totalPayable }}</span>
+          </div>
+        </div>
+        <div class="col-md-5 ml-4 mt-3" *ngIf="selectedAddress">
+          <div class="font-wt">Delivery Address :</div>
+          <div class="my-2">{{ userName }}</div>
+          <span>{{ selectedAddress?.address_1 }} </span>
+          <span>{{ selectedAddress?.address_2 }}</span>
+          <br />
+          <span>{{ selectedAddress?.city }}, </span>
+          <span>{{ selectedAddress?.state }}, </span>
+          <span>{{ selectedAddress?.country }} </span>
+          <br />
+          <span>{{ selectedAddress?.landmark }} </span>
+          <span>{{ selectedAddress?.pincode }}</span>
+          <br />
+          <span>Mobile: {{ selectedAddress?.mobile }}</span>
+          <span *ngIf="selectedAddress?.alternate_mobile"
+            >, {{ selectedAddress?.alternate_mobile }}</span
+          >
+        </div>
+      </div>
+      <div
+        *ngIf="cartItems && cartItems.length > 0"
+        class="payment-mode-section mt-5"
+      >
+        <div>
+          <span>Please select Payment Mode</span>
+          <div
+            class="address-box mt-2 cursor-pointer"
+            style="padding: 30px 60px;"
+          >
+            <mat-radio-group
+              aria-labelledby="example-radio-group-label"
+              class="example-radio-group"
+              [(ngModel)]="selectedPaymentMode"
+            >
+              <mat-radio-button
+                class="example-radio-button"
+                *ngFor="let paymentMode of paymentModes"
+                [value]="paymentMode.key"
+              >
+                {{ paymentMode.value }}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        <div class="mt-3 mx-4">
+          <button
+            mat-raised-button
+            class="confirm-order-btn"
+            [disabled]="!selectedPaymentMode"
+            (click)="confirmOrder()"
+          >
+            Confirm Order
+          </button>
+        </div>
+      </div>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>

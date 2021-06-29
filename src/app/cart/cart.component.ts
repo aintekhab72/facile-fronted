@@ -5,14 +5,19 @@ import {
   Validators,
   FormControl
 } from "@angular/forms";
-import { CART, ADDRESS } from "../services/mock.response";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   SNACK_BAR_DURATION,
-  GST,
+  GST_PER,
   SHIPPING_CHARGES
 } from "../utils/constants.utils";
 import { MatStepper } from "@angular/material/stepper";
+import { HttpParams } from "@angular/common/http";
+import { ShippingAddressService } from "../services/shipping-address.service";
+import { CartService } from "../services/cart.service";
+import { HeaderService } from "../services/header.service";
+import { OrderService } from "../services/order.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-cart",
@@ -21,12 +26,14 @@ import { MatStepper } from "@angular/material/stepper";
 })
 export class CartComponent implements OnInit {
   @ViewChild("stepper") stepper: MatStepper;
-  public cartItems: any;
+  public userId: string;
+  public userName: string;
+  public cartItems: any[] = [];
   public firstFormGroup!: FormGroup;
   public secondFormGroup!: FormGroup;
   public isEditable = false;
   public cartTotal = 0;
-  public gst = GST;
+  public gst = 0;
   public shippingCharges = SHIPPING_CHARGES;
   public totalPayable = 0;
   public quatityOptions: string[] = [
@@ -44,89 +51,204 @@ export class CartComponent implements OnInit {
 
   //Address
   public addressForm!: FormGroup;
-  public addressList = ADDRESS;
+  public addressList: any[] = [];
   public showAddressFields: boolean = false;
+  public event = "add_address";
+  public selectedAddress: any;
+  public shippingAddressId: any;
+  public cartId: any;
 
-  constructor(private fb: FormBuilder, private snackBar: MatSnackBar) {}
+  //Payment
+  public paymentModes = [
+    {
+      key: "COD",
+      value: "COD (Cash On Delivery)"
+    }
+  ];
+  public selectedPaymentMode: string;
+
+  constructor(
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar,
+    private shippingAddress: ShippingAddressService,
+    private cartService: CartService,
+    private headerService: HeaderService,
+    private orderService: OrderService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     //Read cart items from local storage
-    let carts: any = localStorage.getItem("cartItems");
-    let productList: any = JSON.parse(carts);
-    if (productList) {
-      this.cartItems = productList.items;
-      this.calculateTotalPayable(this.cartItems);
-    } else {
-      this.cartItems = [];
+    // let carts: any = localStorage.getItem("cartItems");
+    // let productList: any = JSON.parse(carts);
+    // if (productList) {
+    //   this.cartItems = productList.items;
+    //   this.calculateTotalPayable(this.cartItems);
+    // } else {
+    //   this.cartItems = [];
+    // }
+
+    let userInfo: any = localStorage.getItem("userInfo");
+    userInfo = JSON.parse(userInfo);
+    if (userInfo) {
+      this.userId = userInfo._id;
+      this.userName = userInfo.name;
+      this.shippingAddressId = userInfo.shipping_address_id;
+      if (this.shippingAddressId) {
+        this.getShippingAddress(this.shippingAddressId);
+      }
+      this.cartId = userInfo.cart_id;
+      if (this.cartId) {
+        this.getCarts(this.cartId);
+      }
     }
 
     this.addressForm = this.fb.group({
+      id: 0,
       addressLine1: new FormControl("", [Validators.required]),
-      addressLine2: new FormControl("", [Validators.required]),
+      addressLine2: new FormControl(""),
       city: new FormControl("", [Validators.required]),
       state: new FormControl("", [Validators.required]),
       country: new FormControl("", [Validators.required]),
-      pincode: new FormControl("", [Validators.required])
+      pincode: new FormControl("", [Validators.required]),
+      landmark: new FormControl(""),
+      mobile: new FormControl("", [Validators.required]),
+      alternateMobile: new FormControl(""),
+      elementId: new FormControl("")
     });
   }
 
-  removeItems(cart: any) {
-    let cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      //remove items
-      let productList: any = JSON.parse(cartItems);
-      const data = productList.items.filter((item: any) => item._id !== cart._id);
-      let prepartCartObj = {
-        items: data
-      };
-      localStorage.setItem("cartItems", JSON.stringify(prepartCartObj));
-
-      //Get items
-      let carts: any = localStorage.getItem("cartItems");
-      let updatedList: any = JSON.parse(carts);
-      if (updatedList) {
-        this.cartItems = updatedList.items;
-      } else {
-        this.cartItems = [];
+  getCarts(cartId: any) {
+    this.cartService.getCarts(cartId).subscribe(
+      (data: any) => {
+        if (data && data.data && data.data.cart_items) {
+          this.cartItems = data.data.cart_items;
+          this.calculateTotalPayable(this.cartItems);
+          this.headerService.setCount.next("call");
+        }
+      },
+      (error: any) => {
+        let errorMessage = error.message || "No Address found";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
       }
-      this.snackBar.open(
-        "Product removed from your cart successfully!",
-        "Close",
-        {
-          duration: 2000,
-          horizontalPosition: "end",
-          verticalPosition: "top"
+    );
+  }
+
+  deleteCart(cart: any) {
+    if (cart) {
+      this.cartService.deleteCart(this.cartId, cart.element_id).subscribe(
+        (data: any) => {
+          if (data) {
+            this.snackBar.open("Cart deleted successfully!", "Close", {
+              duration: SNACK_BAR_DURATION
+            });
+            this.getCarts(this.cartId);
+          }
+        },
+        (error: any) => {
+          let errorMessage =
+            error.message || "Unable to delete cart, please try again";
+          this.snackBar.open(errorMessage, "Close", {
+            panelClass: "snack-error-message",
+            duration: SNACK_BAR_DURATION
+          });
         }
       );
-      this.calculateTotalPayable(this.cartItems);
     }
   }
 
-  selectOption(event: any, prod: any) {
-    let cartItems = localStorage.getItem("cartItems");
-    if (cartItems) {
-      let productList: any = JSON.parse(cartItems);
-      for (const product of productList.items) {
-        if (product._id === prod._id) {
-          product.quantity = event.target.value;
+  //Dont remove
+  // removeItems(cart: any) {
+  //   let cartItems = localStorage.getItem("cartItems");
+  //   if (cartItems) {
+  //     //remove items
+  //     let productList: any = JSON.parse(cartItems);
+  //     const data = productList.items.filter(
+  //       (item: any) => item._id !== cart._id
+  //     );
+  //     let prepartCartObj = {
+  //       items: data
+  //     };
+  //     localStorage.setItem("cartItems", JSON.stringify(prepartCartObj));
+
+  //     //Get items
+  //     let carts: any = localStorage.getItem("cartItems");
+  //     let updatedList: any = JSON.parse(carts);
+  //     if (updatedList) {
+  //       this.cartItems = updatedList.items;
+  //     } else {
+  //       this.cartItems = [];
+  //     }
+  //     this.snackBar.open(
+  //       "Product removed from your cart successfully!",
+  //       "Close",
+  //       {
+  //         duration: 2000,
+  //         horizontalPosition: "end",
+  //         verticalPosition: "top"
+  //       }
+  //     );
+  //     this.calculateTotalPayable(this.cartItems);
+  //   }
+  // }
+
+  selectOption(event: any, cartItem: any) {
+    let cartObj = {
+      cart_id: this.cartId,
+      element_id: cartItem.element_id,
+      variant_id: cartItem.variant_id,
+      quantity: event.target.value
+    };
+    this.cartService.updateCart(cartObj).subscribe(
+      (data: any) => {
+        if (data) {
+          this.snackBar.open("Cart updated successfully!", "Close", {
+            duration: SNACK_BAR_DURATION
+          });
+          this.getCarts(this.cartId);
         }
+      },
+      (error: any) => {
+        let errorMessage =
+          error.message || "Unable to update Cart, please try again";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
       }
-      this.cartItems = productList.items;
-      localStorage.setItem("cartItems", JSON.stringify(productList));
-      this.snackBar.open("Cart updated successfully!", "Close", {
-        duration: SNACK_BAR_DURATION
-      });
-      this.calculateTotalPayable(this.cartItems);
-    }
+    );
+    // Dont remove it is usefull for localstorage
+    // let cartItems = localStorage.getItem("cartItems");
+    // if (cartItems) {
+    //   let productList: any = JSON.parse(cartItems);
+    //   for (const product of productList.items) {
+    //     if (product._id === prod._id) {
+    //       product.quantity = event.target.value;
+    //     }
+    //   }
+    //   this.cartItems = productList.items;
+    //   localStorage.setItem("cartItems", JSON.stringify(productList));
+    //   this.snackBar.open("Cart updated successfully!", "Close", {
+    //     duration: SNACK_BAR_DURATION
+    //   });
+    //   this.calculateTotalPayable(this.cartItems);
+    // }
   }
 
   calculateTotalPayable(cartItems: any) {
     let cartTotal = 0;
     cartItems.forEach((element: any) => {
-      cartTotal += element.quantity * element.mrp;
+      cartTotal += element.quantity * element.product_details.mrp;
     });
     this.cartTotal = cartTotal;
-    this.totalPayable = this.cartTotal + this.gst + this.shippingCharges;
+    let actualPrice = (this.cartTotal * 100) / GST_PER;
+    this.gst = Math.round(this.cartTotal - actualPrice);
+    this.cartTotal = Math.round(actualPrice);
+    this.totalPayable = actualPrice + this.gst + this.shippingCharges;
+    this.totalPayable = Math.round(this.totalPayable);
   }
 
   goToNextStep() {
@@ -134,23 +256,218 @@ export class CartComponent implements OnInit {
     this.stepper.next();
   }
 
-  //Address
+  //Address sections start here
   addAddress() {
-    if (this.addressForm.valid) {
-      console.log(this.addressForm.value);
-      const addressObj = {
-        addressLine1: this.addressForm.value.addressLine1,
-        addressLine2: this.addressForm.value.addressLine2,
-        city: this.addressForm.value.city,
-        state: this.addressForm.value.state,
-        country: this.addressForm.value.country,
-        pincode: this.addressForm.value.pincode
-      };
-      this.addressList.push(addressObj);
-      this.snackBar.open("Address added successfully!", "Close", {
-        duration: SNACK_BAR_DURATION
+    if (this.event === "add_address") {
+      if (this.addressForm.valid) {
+        const addressObj = {
+          address_id: this.shippingAddressId,
+          address_1: this.addressForm.value.addressLine1,
+          address_2: this.addressForm.value.addressLine2,
+          city: this.addressForm.value.city,
+          state: this.addressForm.value.state,
+          country: this.addressForm.value.country,
+          pincode: this.addressForm.value.pincode,
+          mobile: this.addressForm.value.mobile,
+          alternate_mobile: this.addressForm.value.alternateMobile,
+          landmark: this.addressForm.value.landmark
+        };
+        this.shippingAddress.addAddress(addressObj).subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address added successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.addressForm.reset();
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to add address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
+      }
+    } else if (this.event === "edit_address") {
+      if (this.addressForm.valid) {
+        const addressObj = {
+          address_id: this.shippingAddressId,
+          element_id: this.addressForm.value.elementId,
+          address_1: this.addressForm.value.addressLine1,
+          address_2: this.addressForm.value.addressLine2,
+          city: this.addressForm.value.city,
+          state: this.addressForm.value.state,
+          country: this.addressForm.value.country,
+          pincode: this.addressForm.value.pincode,
+          mobile: this.addressForm.value.mobile,
+          alternate_mobile: this.addressForm.value.alternateMobile,
+          landmark: this.addressForm.value.landmark
+        };
+
+        this.shippingAddress.updateAddress(addressObj).subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address updated successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.addressForm.reset();
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to update address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
+      }
+    }
+  }
+
+  addAddressShowDialogBox() {
+    this.showAddressFields = true;
+    this.event = "add_address";
+    this.addressForm.reset();
+  }
+
+  closeAddress() {
+    this.showAddressFields = false;
+    this.addressForm.reset();
+  }
+
+  clearAddress() {
+    this.addressForm.reset();
+  }
+
+  editAddress(address: any) {
+    this.addressForm.patchValue({
+      id: address.id,
+      addressLine1: address.address_1,
+      addressLine2: address.address_2,
+      city: address.city,
+      state: address.state,
+      country: address.country,
+      pincode: address.pincode,
+      landmark: address.landmark,
+      mobile: address.mobile,
+      alternateMobile: address.alternate_mobile,
+      elementId: address.element_id
+    });
+    this.showAddressFields = true;
+    this.selectedAddress = null;
+    this.event = "edit_address";
+  }
+
+  deleteAddress(address: any) {
+    if (address) {
+      this.shippingAddress
+        .deleteAddress(this.shippingAddressId, address.element_id)
+        .subscribe(
+          (data: any) => {
+            if (data) {
+              this.snackBar.open("Address deleted successfully!", "Close", {
+                duration: SNACK_BAR_DURATION
+              });
+              this.selectedAddress = null;
+              this.showAddressFields = false;
+              this.getShippingAddress(this.shippingAddressId);
+            }
+          },
+          (error: any) => {
+            let errorMessage =
+              error.message || "Unable to update address, please try again";
+            this.snackBar.open(errorMessage, "Close", {
+              panelClass: "snack-error-message",
+              duration: SNACK_BAR_DURATION
+            });
+          }
+        );
+    }
+  }
+
+  onSelectAddress(address: any) {
+    this.selectedAddress = address;
+  }
+
+  getShippingAddress(addressId: any) {
+    this.shippingAddress.getAddress(addressId).subscribe(
+      (data: any) => {
+        if (data && data.data && data.data.addresses) {
+          this.addressList = data.data.addresses;
+          if (this.addressList && this.addressList.length > 0)
+            this.selectedAddress = this.addressList[0];
+        }
+      },
+      (error: any) => {
+        let errorMessage = error.message || "No Address found";
+        this.snackBar.open(errorMessage, "Close", {
+          panelClass: "snack-error-message",
+          duration: SNACK_BAR_DURATION
+        });
+      }
+    );
+  }
+
+  continueToPayment() {
+    if (this.selectedAddress) {
+      this.stepper.selected.completed = true;
+      this.stepper.next();
+    }
+  }
+  //Address sections end here
+
+  //Payment Section start here
+  confirmOrder() {
+    if (
+      this.userId &&
+      this.selectedAddress &&
+      this.cartItems &&
+      this.selectedPaymentMode
+    ) {
+      const products = this.cartItems.map(eachProd => {
+        return {
+          quantity: eachProd.quantity,
+          variant_id: eachProd.variant_id
+        };
       });
-      this.addressForm.reset();
+
+      const payload = {
+        user_id: this.userId,
+        products: products,
+        coupon_code: "",
+        payment_mode: this.selectedPaymentMode,
+        shipping_address: this.selectedAddress
+      };
+
+      this.orderService.placeOrder(payload).subscribe(
+        (data: any) => {
+          if (data && data.data) {
+            this.snackBar.open("Successfully placed!", "Close", {
+              duration: SNACK_BAR_DURATION
+            });
+            this.headerService.setCount.next("call");
+            this.router.navigate(["/"]);
+          }
+        },
+        (error: any) => {
+          let errorMessage =
+            error.message ||
+            "Something went wrong, unable to place order. Please try again later";
+          this.snackBar.open(errorMessage, "Close", {
+            panelClass: "snack-error-message",
+            duration: SNACK_BAR_DURATION
+          });
+        }
+      );
     }
   }
 }
